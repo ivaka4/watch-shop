@@ -7,6 +7,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 
 import java.util.Random;
@@ -28,8 +30,8 @@ public class AppBeanConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder bCryptPasswordEncoder(){
+        return new Pbkdf2PasswordEncoder();
     }
     
     @Bean(name = "threadPoolTaskExecutor")

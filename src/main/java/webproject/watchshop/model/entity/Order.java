@@ -1,4 +1,4 @@
-package webproject.watchshop.entity;
+package webproject.watchshop.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")

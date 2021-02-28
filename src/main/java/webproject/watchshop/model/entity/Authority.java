@@ -1,12 +1,9 @@
-package webproject.watchshop.entity;
-import lombok.*;
+package webproject.watchshop.model.entity;
+
 import org.springframework.security.core.GrantedAuthority;
 import webproject.watchshop.enums.RoleEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
@@ -15,10 +12,11 @@ import javax.persistence.Table;
 //@NoArgsConstructor
 //@AllArgsConstructor
 public class Authority extends BaseEntity implements GrantedAuthority {
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private RoleEnum authority;
 
     @Override
+    @Column(name = "role", nullable = false, unique = true)
     public String getAuthority() {
         return authority.name();
     }

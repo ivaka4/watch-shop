@@ -1,4 +1,4 @@
-<th:block>
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
     <header>
         <!-- Header Start -->
         <div class="header-area">
@@ -16,27 +16,7 @@
                                     <li><a href="/">Home</a></li>
                                     <li><a href="/shop">shop</a></li>
                                     <li><a href="/about">about</a></li>
-                                    <li class="hot"><a href="#">Latest</a>
-                                        <ul class="submenu">
-                                            <li><a href="/shop"> Product list</a></li>
-                                            <li><a href="/products/details"> Product Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="/blog">Blog</a>
-                                        <ul class="submenu">
-                                            <li><a href="/blog">Blog</a></li>
-                                            <li><a href="/blog/details">Blog Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="submenu">
-                                            <li><a href="/users/login">Login</a></li>
-                                            <li><a href="/cart">Cart</a></li>
-                                            <li><a href="/elements">Element</a></li>
-                                            <li><a href="/confirmation">Confirmation</a></li>
-                                            <li><a href="/checkout">Product Checkout</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="/blog">Blog</a></li>
                                     <li><a href="/contact">Contact</a></li>
                                 </ul>
                             </nav>
@@ -49,7 +29,10 @@
                                         <span class="flaticon-search"></span>
                                     </div>
                                 </li>
-                                <li><a href="/users/login"><span class="flaticon-user"></span></a></li>
+                                <li><a sec:authorize="isAnonymous()" href="/users-login"><span
+                                        class="flaticon-user"></span></a></li>
+                                <li><a sec:authorize="isAuthenticated" href="/users-profile"><span
+                                        class="flaticon-user"></span></a></li>
                                 <li><a href="/cart"><span class="flaticon-shopping-cart"></span></a></li>
                             </ul>
                         </div>

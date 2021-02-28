@@ -1,4 +1,4 @@
-package webproject.watchshop.entity;
+package webproject.watchshop.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

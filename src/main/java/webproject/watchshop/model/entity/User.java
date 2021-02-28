@@ -1,4 +1,4 @@
-package webproject.watchshop.entity;
+package webproject.watchshop.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     private String firstName;
     @Column(name = "last_name", nullable = false)
     private String lastName;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
     @Column(name = "register_on", nullable = false)
     private LocalDateTime registerOn;

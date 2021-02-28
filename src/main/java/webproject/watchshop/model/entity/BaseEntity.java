@@ -1,18 +1,13 @@
-package webproject.watchshop.entity;
+package webproject.watchshop.model.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @MappedSuperclass
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class BaseEntity {
 
     @Id
