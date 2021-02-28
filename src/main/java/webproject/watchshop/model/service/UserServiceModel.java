@@ -3,6 +3,7 @@ package webproject.watchshop.model.service;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webproject.watchshop.model.entity.Blog;
 import webproject.watchshop.model.view.AddressViewModel;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserServiceModel {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private List<Blog> blogs;
     private List<ProductServiceModel> cart;
 
     private String postCode;

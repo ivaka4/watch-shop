@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.model.binding.UserRegisterBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
+import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
 
@@ -21,10 +23,12 @@ import javax.validation.Valid;
 public class UserController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final Tools tools;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, Tools tools) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.tools = tools;
     }
 
     @GetMapping("/users-login")
@@ -35,9 +39,17 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/users-profile")
-    public ModelAndView profile(@AuthenticationPrincipal UserDetails user) {
+    public ModelAndView profile(Model model) {
         ModelAndView modelAndView = new ModelAndView("profile");
-        modelAndView.addObject("user", user);
+        UserServiceModel userServiceModel = this.userService.findByUsername(this.tools.getLoggedUser());
+        UserViewModel userViewModel = this.modelMapper.map(userServiceModel, UserViewModel.class);
+        modelAndView.addObject("userUpdate", userViewModel);
+        return modelAndView;
+    }
+
+    @PostMapping("/users-profile")
+    public ModelAndView profileUpdate(@AuthenticationPrincipal UserDetails user) {
+        ModelAndView modelAndView = new ModelAndView("profile");
         return modelAndView;
     }
 

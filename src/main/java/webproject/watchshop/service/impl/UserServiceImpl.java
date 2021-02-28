@@ -13,6 +13,7 @@ import webproject.watchshop.model.entity.User;
 import webproject.watchshop.model.entity.UserSecurity;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.AddressViewModel;
+import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.repository.AddressRepository;
 import webproject.watchshop.repository.AuthorityRepository;
 import webproject.watchshop.repository.UserRepository;
@@ -79,6 +80,17 @@ public class UserServiceImpl implements UserService {
     public boolean userExists(String username) {
         return userRepository.findByUsername(username) != null;
     }
+
+    @Override
+    @Transactional
+    public UserServiceModel findByUsername(String loggedUser) {
+        User user = this.userRepository.findByUsername(loggedUser);
+        System.out.println();
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        System.out.println();
+        return userServiceModel;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

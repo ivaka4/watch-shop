@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointAutoConfiguration;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,10 +40,10 @@ public class User extends BaseEntity {
     private String profilePicture;
     @Column(name = "updated_on", nullable = false)
     private LocalDateTime updatedOn;
-    @OneToMany(mappedBy = "author")
-    private List<Blog> blogs;
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Product> cart;
+    @OneToMany()
+    private List<Blog> blogs;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

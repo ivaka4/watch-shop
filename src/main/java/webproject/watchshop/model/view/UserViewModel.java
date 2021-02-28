@@ -1,7 +1,6 @@
 package webproject.watchshop.model.view;
 
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,16 +12,18 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserViewModel{
+public class UserViewModel {
 
-	private String username;
+    private String username;
     private String firstName;
     private String lastName;
     private String email;
+
+    private String profilePicture;
     private AddressViewModel address;
-	private String phoneNumber;
-	private List<ProductViewModel> cart;
-	private Set<AuthorityServiceModel> authorities;
+    private Integer phoneNumber;
+    private List<ProductViewModel> cart;
+    private Set<AuthorityServiceModel> authorities;
 
 
 }
