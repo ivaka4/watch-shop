@@ -14,7 +14,7 @@ import javax.validation.ConstraintValidatorContext;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UniqueGitAddressValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
     UserService userService;
 

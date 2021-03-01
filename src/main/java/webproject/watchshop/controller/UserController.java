@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.model.binding.UserRegisterBindingModel;
+import webproject.watchshop.model.binding.UserUpdateProfileBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.UserService;
@@ -47,10 +48,22 @@ public class UserController extends BaseController {
         return modelAndView;
     }
 
-    @PostMapping("/users-profile")
-    public ModelAndView profileUpdate(@AuthenticationPrincipal UserDetails user) {
-        ModelAndView modelAndView = new ModelAndView("profile");
-        return modelAndView;
+    @PostMapping("/users-update")
+    public ModelAndView profileUpdate(@Valid @ModelAttribute UserUpdateProfileBindingModel userUpdateProfileBindingModel,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors() || !userUpdateProfileBindingModel.getPassword()
+                .equals(userUpdateProfileBindingModel.getConfirmPassword())) {
+            redirectAttributes.addFlashAttribute("userUpdate", userUpdateProfileBindingModel);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.userRegisterModel", bindingResult);
+            return super.redirect("/users-profile");
+        }
+        UserServiceModel userServiceModel = this.modelMapper.map(userUpdateProfileBindingModel, UserServiceModel.class);
+        userServiceModel.setUsername(this.tools.getLoggedUser());
+        this.userService.updateProfile(userServiceModel);
+        return super.redirect("/users-profile");
     }
 
     @GetMapping("/users-register")

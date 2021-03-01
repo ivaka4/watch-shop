@@ -3,6 +3,7 @@ package webproject.watchshop.model.service;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webproject.watchshop.enums.RoleEnum;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,8 +12,8 @@ import javax.persistence.Enumerated;
 @Setter
 @NoArgsConstructor
 public class AuthorityServiceModel{
-	@Enumerated(EnumType.STRING)
-	private String authority;
+
+	private RoleEnum authority;
 
 	
 }

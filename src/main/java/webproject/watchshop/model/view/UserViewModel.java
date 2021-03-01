@@ -21,7 +21,7 @@ public class UserViewModel {
 
     private String profilePicture;
     private AddressViewModel address;
-    private Integer phoneNumber;
+    private Integer phone;
     private List<ProductViewModel> cart;
     private Set<AuthorityServiceModel> authorities;
 

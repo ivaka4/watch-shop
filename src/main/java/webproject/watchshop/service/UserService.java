@@ -13,4 +13,6 @@ public interface UserService extends UserDetailsService {
     boolean userExists(String username);
 
     UserServiceModel findByUsername(String loggedUser);
+
+    UserServiceModel updateProfile(UserServiceModel userServiceModel);
 }

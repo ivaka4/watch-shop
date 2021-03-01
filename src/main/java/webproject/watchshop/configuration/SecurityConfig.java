@@ -7,16 +7,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import webproject.watchshop.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    private final UserDetailsService userDetailsService;
+    private final UserService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public SecurityConfig(UserService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }

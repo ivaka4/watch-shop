@@ -40,7 +40,7 @@
                             <form th:object="${userRegisterModel}" class="row contact_form"
                                   th:action="@{/users-register}" th:method="post" novalidate="novalidate">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label>Username:</label>
                                             <input type="text" class="form-control" name="username"
@@ -51,7 +51,7 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="email">Email:</label>
                                             <input type="email" class="form-control" name="email" id="email"
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="password">Password:</label>
                                             <input type="password" class="form-control" name="password" id="password"
@@ -74,7 +74,7 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="confirmPassword">Repeat Password:</label>
                                             <input type="password" class="form-control" name="confirmPassword"
@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="firstName">First Name:</label>
                                             <input type="text" class="form-control" name="firstName" id="firstName"
@@ -97,7 +97,7 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="lastName">Last Name:</label>
                                             <input type="text" class="form-control" name="lastName" id="lastName"
@@ -115,7 +115,7 @@
                                     </div>
                                 </div> -->
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="country">Country:</label>
                                             <input type="text" class="form-control" name="country" id="country"
@@ -126,7 +126,7 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="city">City:</label>
                                             <input type="text" class="form-control" name="city" id="city"
@@ -136,7 +136,7 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="postCode">Post code:</label>
                                             <input type="text" class="form-control" name="postCode" id="postCode"
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="address1">Address 1:</label>
                                             <input type="text" class="form-control" name="address1" id="address1"
@@ -159,7 +159,7 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
                                             <label for="address2">Address 2:</label>
                                             <input type="text" class="form-control" name="address2" id="address2"
@@ -169,14 +169,14 @@
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xs-6">
                                         <div class="form-group">
-                                            <label for="phoneNumber">Phone number</label>
-                                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber"
-                                                   th:value="*{phoneNumber}" aria-describedby="helpId"
-                                                   placeholder="Phone nuber">
+                                            <label for="phone">Phone number</label>
+                                            <input type="text" class="form-control" name="phone" id="phone"
+                                                   th:value="*{phone}" aria-describedby="helpId"
+                                                   placeholder="Phone number">
                                             <small class="span-info-text-error"
-                                                   th:each="error : ${#fields.errors('phoneNumber')}"
+                                                   th:each="error : ${#fields.errors('phone')}"
                                                    th:text="${error}"></small>
                                         </div>
                                     </div>

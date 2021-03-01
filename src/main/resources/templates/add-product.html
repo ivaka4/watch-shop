@@ -26,7 +26,7 @@
 
 <div class="container bootstrap snippet">
     <div class="row">
-        <div th:object="${userUpdate}" class="col-sm-3"><!--left col-->
+        <div th:object="${productAddBindingModel}" class="col-sm-3"><!--left col-->
 
 
             <div class="text-center">
@@ -40,12 +40,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
                 <ul class="list-group">
-                <li class="list-group-item text-right"><span class="pull-left"><a href="/products-upload">
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/add-product">
                     <strong>Upload Product</strong></a></span>
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><a href="/users-addrole">
+                    </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users-addrole">
                     <strong>Change Role</strong></a></span>
-                </li></ul>
+                    </li>
+                </ul>
             </div>
 
 
@@ -71,122 +72,121 @@
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="/users-profile">Profile information</a></li>
-                <li><a data-toggle="tab" href="/products-add">Upload Product</a></li>
-                <li><a data-toggle="tab" href="/admin">Admin</a></li>
             </ul>
 
 
             <div class="tab-content">
-                <div class="tab-pane active" id="update">
+                <div class="tab-pane active" id="add-product">
                     <hr>
-                    <form class="form" th:action="@{/users-update}" th:method="post">
+                    <form class="form" th:action="@{/add-product}" th:method="post">
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="firstName"><h4>First name</h4></label>
-                                <input th:value="${userUpdate.firstName}" type="text" class="form-control"
-                                       name="firstName"
-                                       id="firstName"
-                                       placeholder="First Name" title="enter your first name if any.">
+                                <label for="name"><h4>Product name</h4></label>
+                                <input th:value="${productAddBindingModel.name}" type="text" class="form-control"
+                                       name="name"
+                                       id="name"
+                                       placeholder="Product name" title="enter your product name">
                             </div>
                         </div>
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="lastName"><h4>Last name</h4></label>
-                                <input th:value="${userUpdate.lastName}" type="text" class="form-control"
-                                       name="lastName" id="lastName"
-                                       placeholder="Last Name" title="enter your last name if any.">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-
-                            <div class="col-xs-6">
-                                <label for="phone"><h4>Phone Number</h4></label>
-                                <input th:value="${userUpdate.phone}" type="number" class="form-control" name="phone"
-                                       id="phone"
-                                       placeholder="enter phone number" title="enter your phone number if any.">
+                                <label for="description"><h4>Description</h4></label>
+                                <input th:value="${productAddBindingModel.description}" type="text" class="form-control"
+                                       name="description" id="description"
+                                       placeholder="Description" title="enter your last product description">
                             </div>
                         </div>
 
                         <div class="form-group">
+
                             <div class="col-xs-6">
-                                <label for="email"><h4>Email</h4></label>
-                                <input th:value="${userUpdate.email}" type="email" class="form-control" name="email"
-                                       id="email"
-                                       placeholder="you@email.com" title="enter your email.">
+                                <label for="make"><h4>Make</h4></label>
+                                <input th:value="${productAddBindingModel.make}" type="text" class="form-control"
+                                       name="make"
+                                       id="make"
+                                       placeholder="enter product make" title="enter your product make">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="model"><h4>Model</h4></label>
+                                <input th:value="${productAddBindingModel.model}" type="text" class="form-control"
+                                       name="model"
+                                       id="model"
+                                       placeholder="Model" title="enter your product model.">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="city"><h4>City</h4></label>
-                                <input th:value="${userUpdate.address.city}" type="text" class="form-control"
-                                       name="city" id="city"
-                                       placeholder="City" title="enter a city">
+                                <label for="productNumber"><h4>Product Number</h4></label>
+                                <input th:value="${productAddBindingModel.productNumber}" type="text"
+                                       class="form-control"
+                                       name="productNumber" id="productNumber"
+                                       placeholder="Product number" title="enter a product number">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="email"><h4>Country</h4></label>
-                                <input th:value="${userUpdate.address.country}" type="text" class="form-control"
-                                       id="country" name="country"
-                                       placeholder="Country" title="enter a country">
+                                <label for="price"><h4>Price</h4></label>
+                                <input th:value="${productAddBindingModel.price}" type="number" class="form-control"
+                                       id="price" name="price"
+                                       placeholder="Product price" title="enter a price">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="address1"><h4>Address 1</h4></label>
-                                <input th:value="${userUpdate.address.getAddress1()}" type="text" class="form-control"
-                                       id="address1" name="address1"
+                                <label for="quantity"><h4>Quantity</h4></label>
+                                <input th:value="${productAddBindingModel.quantity}" type="number" class="form-control"
+                                       id="quantity" name="quantity"
                                        placeholder="Address 1" title="enter an address">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="address2"><h4>Address 2</h4></label>
-                                <input th:value="${userUpdate.address.address2}" type="text" class="form-control"
-                                       id="address2" name="address2"
-                                       placeholder="Address 2" title="enter an address">
+                                <label for="imageUrls"><h4>Product Picture 1</h4></label>
+                                <input th:value="${productAddBindingModel.imageUrls}" type="text" class="form-control"
+                                       id="imageUrls" name="imageUrls"
+                                       placeholder="Product image url" title="Enter product picture URL">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="postCode"><h4>Post Code</h4></label>
-                                <input th:value="${userUpdate.address.postCode}" type="text" class="form-control"
-                                       id="postCode" name="postCode"
-                                       placeholder="Post code" title="enter a post code">
+                                <label for="imageUrls2"><h4>Product Picture 2</h4></label>
+                                <input th:value="${productAddBindingModel.imageUrls}" type="text" class="form-control"
+                                       id="imageUrls2" name="imageUrls"
+                                       placeholder="Product image url" title="Enter product picture URL">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="profilePicture"><h4>Profile Picture</h4></label>
-                                <input th:value="${userUpdate.profilePicture}" type="text" class="form-control"
-                                       id="profilePicture" name="profilePicture"
-                                       placeholder="No profile picture" title="Enter profile picture URL">
+                                <label for="imageUrls3"><h4>Product Picture 3</h4></label>
+                                <input th:value="${productAddBindingModel.imageUrls}" type="text" class="form-control"
+                                       id="imageUrls3" name="imageUrls"
+                                       placeholder="Product image url" title="Enter product picture URL">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-xs-6">
+                            <label for="category"><h4>Category</h4></label>
+                            <select id="category"
+                                    class="form-control"
+                                    name="category">
+                                <option value="">- Select a category -</option>
+                                <option
+                                        th:each="category : ${categories}"
+                                        th:value="${category.category}"
+                                        th:text="${category.category}">
+                                </option>
 
-                            <div class="col-xs-6">
-                                <label for="password"><h4>Password</h4></label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="password" title="enter your password.">
-                            </div>
-                        </div>
-                        <div class="form-group">
-
-                            <div class="col-xs-6">
-                                <label for="confirmPassword"><h4>Confirm Password</h4></label>
-                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
-                                       placeholder="password2" title="enter your password2.">
-                            </div>
+                            </select>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <br>
                                 <button class="btn btn-lg btn-success" type="submit"><i
-                                        class="glyphicon glyphicon-ok-sign"></i> Save
+                                        class="glyphicon glyphicon-ok-sign"></i> Upload
                                 </button>
                             </div>
                         </div>

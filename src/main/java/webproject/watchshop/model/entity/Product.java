@@ -34,6 +34,6 @@ public class Product extends BaseEntity {
     @ElementCollection(targetClass = String.class)
     private List<String> imageUrls;
     @ManyToOne()
-    private ProductCategory productCategory;
+    private ProductCategory category;
 
 }

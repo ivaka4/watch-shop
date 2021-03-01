@@ -26,7 +26,7 @@ public class ProductServiceModel{
     private BigDecimal price;
     private int quantity;
     private List<String> imageUrls;
-    private ProductCategory productCategory;
+    private String category;
 
 
 }

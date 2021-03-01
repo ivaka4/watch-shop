@@ -19,7 +19,8 @@ public class UserServiceModel {
     private String email;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
+    private String phone;
+    private String profilePicture;
     private List<Blog> blogs;
     private List<ProductServiceModel> cart;
 

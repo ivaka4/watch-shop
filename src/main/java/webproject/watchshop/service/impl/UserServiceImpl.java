@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, AddressRepository addressRepository, AuthorityService authorityService, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -51,12 +52,13 @@ public class UserServiceImpl implements UserService {
         user.setRegisterOn(LocalDateTime.now());
         user.setUpdatedOn(LocalDateTime.now());
         if (userRepository.count() == 0){
-//            authorityService.seedAuthorities();
+            authorityService.seedAuthorities();
             user.setAuthorities(new HashSet<>(authorityRepository.findAll()));
         } else {
             user.setAuthorities(new HashSet<>(authorityRepository.findAllByAuthority(RoleEnum.USER)));
         }
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
+
         this.userRepository.saveAndFlush(user);
         return this.modelMapper.map(user, UserServiceModel.class);
     }
@@ -89,6 +91,21 @@ public class UserServiceImpl implements UserService {
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
         System.out.println();
         return userServiceModel;
+    }
+
+    @Override
+    @Transactional
+    public UserServiceModel updateProfile(UserServiceModel userServiceModel) {
+        User user = this.userRepository.findByUsername(userServiceModel.getUsername());
+        user.setUpdatedOn(LocalDateTime.now());
+        user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
+        addAddressToUser(userServiceModel, user);
+        user.setProfilePicture(userServiceModel.getProfilePicture());
+        user.setFirstName(userServiceModel.getFirstName());
+        user.setLastName(userServiceModel.getLastName());
+        user.setPhone(Integer.parseInt(userServiceModel.getPhone()));
+        user.setEmail(userServiceModel.getEmail());
+        return null;
     }
 
 
