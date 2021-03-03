@@ -1,6 +1,7 @@
 package webproject.watchshop.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webproject.watchshop.model.entity.Product;
@@ -9,6 +10,8 @@ import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.repository.ProductRepository;
 import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.ProductService;
+
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -31,5 +34,12 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(productCategory);
         this.productRepository.saveAndFlush(product);
         return this.modelMapper.map(product, ProductServiceModel.class);
+    }
+
+    @Override
+    @Transactional
+    public List<ProductServiceModel> getAllProducts() {
+        return this.modelMapper.map(this.productRepository.findAll(), new TypeToken<List<ProductServiceModel>>() {
+        }.getType());
     }
 }

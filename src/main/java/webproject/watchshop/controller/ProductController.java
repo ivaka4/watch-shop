@@ -1,6 +1,7 @@
 package webproject.watchshop.controller;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class ProductController extends BaseController{
         return new ModelAndView("product_details");
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/add-product")
     public ModelAndView addProduct(Model model) {
         ModelAndView modelAndView = new ModelAndView("add-product");
@@ -53,6 +55,7 @@ public class ProductController extends BaseController{
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-product")
     public ModelAndView addProductConfirm(@Valid @ModelAttribute ProductAddBindingModel productAddBindingModel,
                                           BindingResult bindingResult,

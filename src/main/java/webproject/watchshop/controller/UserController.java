@@ -1,6 +1,7 @@
 package webproject.watchshop.controller;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -9,8 +10,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import webproject.watchshop.enums.RoleEnum;
+import webproject.watchshop.exceiptions.userEx.UserCannotSaveException;
 import webproject.watchshop.model.binding.UserRegisterBindingModel;
 import webproject.watchshop.model.binding.UserUpdateProfileBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
@@ -42,10 +46,14 @@ public class UserController extends BaseController {
     @GetMapping("/users-profile")
     public ModelAndView profile(Model model) {
         ModelAndView modelAndView = new ModelAndView("profile");
+        loggedUserInfo(modelAndView);
+        return modelAndView;
+    }
+
+    private void loggedUserInfo(ModelAndView modelAndView) {
         UserServiceModel userServiceModel = this.userService.findByUsername(this.tools.getLoggedUser());
         UserViewModel userViewModel = this.modelMapper.map(userServiceModel, UserViewModel.class);
         modelAndView.addObject("userUpdate", userViewModel);
-        return modelAndView;
     }
 
     @PostMapping("/users-update")
@@ -88,5 +96,21 @@ public class UserController extends BaseController {
 
         this.userService.register(this.modelMapper.map(userRegisterModel, UserServiceModel.class));
         return super.redirect("/users-login");
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/users-roles")
+    public ModelAndView changeRole(){
+        ModelAndView modelAndView = new ModelAndView("change-role");
+        modelAndView.addObject("users", userService.getAllUsers());
+        loggedUserInfo(modelAndView);
+        return modelAndView;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/users-roles")
+    public ModelAndView changeRoleConfirm(@RequestParam String username, @RequestParam String role) throws Exception, UserCannotSaveException {
+        userService.changeRole(username, RoleEnum.valueOf(role.toUpperCase()));
+        return super.redirect("/users-profile");
     }
 }

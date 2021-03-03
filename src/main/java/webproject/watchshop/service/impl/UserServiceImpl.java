@@ -1,6 +1,7 @@
 package webproject.watchshop.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webproject.watchshop.enums.RoleEnum;
+import webproject.watchshop.exceiptions.userEx.UserCannotSaveException;
 import webproject.watchshop.model.entity.Address;
 import webproject.watchshop.model.entity.User;
 import webproject.watchshop.model.entity.UserSecurity;
@@ -20,8 +22,10 @@ import webproject.watchshop.repository.UserRepository;
 import webproject.watchshop.service.AuthorityService;
 import webproject.watchshop.service.UserService;
 
+import javax.management.relation.Role;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,7 +55,7 @@ public class UserServiceImpl implements UserService {
         addAddressToUser(userServiceModel, user);
         user.setRegisterOn(LocalDateTime.now());
         user.setUpdatedOn(LocalDateTime.now());
-        if (userRepository.count() == 0){
+        if (userRepository.count() == 0) {
             authorityService.seedAuthorities();
             user.setAuthorities(new HashSet<>(authorityRepository.findAll()));
         } else {
@@ -105,7 +109,36 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userServiceModel.getLastName());
         user.setPhone(Integer.parseInt(userServiceModel.getPhone()));
         user.setEmail(userServiceModel.getEmail());
-        return null;
+        return this.modelMapper.map(user, UserServiceModel.class);
+    }
+
+    @Override
+    public List<UserViewModel> getAllUsers() {
+        return this.modelMapper.map(this.userRepository.findAll(), new TypeToken<List<UserViewModel>>() {
+        }.getType());
+    }
+
+    @Override
+    @Transactional
+    public UserServiceModel changeRole(String username, RoleEnum authority) throws UserCannotSaveException {
+        User user = this.userRepository.findUserByUsername(username).orElse(null);
+        if (user != null) {
+            if (user.getAuthorities().size() == 2 && authority.equals(RoleEnum.USER)) {
+                user.getAuthorities().clear();
+                user.setAuthorities(new HashSet<>());
+                user.getAuthorities().add(authorityRepository.findByAuthority(authority));
+                userRepository.saveAndFlush(user);
+
+            } else if (authority.equals(RoleEnum.ADMIN)) {
+                user.getAuthorities().add(authorityRepository.findByAuthority(authority));
+                userRepository.saveAndFlush(user);
+            } else {
+                throw new UserCannotSaveException("Exs");
+            }
+        } else {
+            throw new UserCannotSaveException("User cannot be saved");
+        }
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
 

@@ -1,8 +1,12 @@
 package webproject.watchshop.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import webproject.watchshop.enums.RoleEnum;
+import webproject.watchshop.exceiptions.userEx.UserCannotSaveException;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
+
+import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
@@ -15,4 +19,8 @@ public interface UserService extends UserDetailsService {
     UserServiceModel findByUsername(String loggedUser);
 
     UserServiceModel updateProfile(UserServiceModel userServiceModel);
+
+    List<UserViewModel> getAllUsers();
+
+    UserServiceModel changeRole(String username, RoleEnum authority) throws Exception, UserCannotSaveException;
 }
