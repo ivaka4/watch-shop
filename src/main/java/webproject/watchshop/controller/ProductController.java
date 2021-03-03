@@ -1,6 +1,8 @@
 package webproject.watchshop.controller;
 
+import jdk.jfr.ContentType;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import webproject.watchshop.model.binding.ProductAddBindingModel;
 import webproject.watchshop.model.service.ProductCategoryServiceModel;
 import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
+import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.ProductService;
@@ -21,7 +24,8 @@ import webproject.watchshop.util.Tools;
 import javax.validation.Valid;
 
 @Controller
-public class ProductController extends BaseController{
+@RequestMapping("/product")
+public class ProductController extends BaseController {
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final ProductCategoryService productCategoryService;
@@ -36,13 +40,8 @@ public class ProductController extends BaseController{
         this.tools = tools;
     }
 
-    @GetMapping("/products-details")
-    public ModelAndView productsDetails() {
-        return new ModelAndView("product_details");
-    }
-
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/add-product")
+    @GetMapping("/add")
     public ModelAndView addProduct(Model model) {
         ModelAndView modelAndView = new ModelAndView("add-product");
         UserServiceModel userServiceModel = this.userService.findByUsername(this.tools.getLoggedUser());
@@ -56,7 +55,7 @@ public class ProductController extends BaseController{
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/add-product")
+    @PostMapping("/add")
     public ModelAndView addProductConfirm(@Valid @ModelAttribute ProductAddBindingModel productAddBindingModel,
                                           BindingResult bindingResult,
                                           RedirectAttributes redirectAttributes) {
@@ -69,5 +68,22 @@ public class ProductController extends BaseController{
         ProductServiceModel productServiceModel = this.modelMapper.map(productAddBindingModel, ProductServiceModel.class);
         this.productService.uploadProduct(productServiceModel);
         return super.redirect("/shop");
+    }
+
+    @GetMapping(name = "/details")
+    public ModelAndView productDetails() {
+        return new ModelAndView("product_details");
+    }
+
+    @GetMapping("/details/{id}")
+    public ModelAndView offerDetails(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("product_details");
+
+        ProductViewModel productViewModel = this.modelMapper
+                .map(productService.getProductBy(id).orElseThrow(), ProductViewModel.class);
+
+        modelAndView.addObject("product", productViewModel);
+
+        return modelAndView;
     }
 }

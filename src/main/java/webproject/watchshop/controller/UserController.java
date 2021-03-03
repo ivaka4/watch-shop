@@ -7,10 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.enums.RoleEnum;
@@ -25,6 +22,7 @@ import webproject.watchshop.util.Tools;
 import javax.validation.Valid;
 
 @Controller
+@RequestMapping("/users")
 public class UserController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper;
@@ -36,14 +34,14 @@ public class UserController extends BaseController {
         this.tools = tools;
     }
 
-    @GetMapping("/users-login")
+    @GetMapping("/login")
     public ModelAndView login(@AuthenticationPrincipal UserDetails user) {
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("user", user);
         return modelAndView;
     }
 
-    @GetMapping("/users-profile")
+    @GetMapping("/profile")
     public ModelAndView profile(Model model) {
         ModelAndView modelAndView = new ModelAndView("profile");
         loggedUserInfo(modelAndView);
@@ -56,7 +54,7 @@ public class UserController extends BaseController {
         modelAndView.addObject("userUpdate", userViewModel);
     }
 
-    @PostMapping("/users-update")
+    @PostMapping("/update")
     public ModelAndView profileUpdate(@Valid @ModelAttribute UserUpdateProfileBindingModel userUpdateProfileBindingModel,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes) {
@@ -74,7 +72,7 @@ public class UserController extends BaseController {
         return super.redirect("/users-profile");
     }
 
-    @GetMapping("/users-register")
+    @GetMapping("/users/register")
     public ModelAndView register(Model model) {
         ModelAndView modelAndView = new ModelAndView("register");
         if (!model.containsAttribute("userRegisterModel")) {
@@ -83,7 +81,7 @@ public class UserController extends BaseController {
         return modelAndView;
     }
 
-    @PostMapping("/users-register")
+    @PostMapping("/users/register")
     public ModelAndView registerConfirm(@Valid @ModelAttribute UserRegisterBindingModel userRegisterModel,
                                         BindingResult bindingResult,
                                         RedirectAttributes redirectAttributes) {
@@ -99,7 +97,7 @@ public class UserController extends BaseController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/users-roles")
+    @GetMapping("/roles/add")
     public ModelAndView changeRole(){
         ModelAndView modelAndView = new ModelAndView("change-role");
         modelAndView.addObject("users", userService.getAllUsers());
@@ -108,7 +106,7 @@ public class UserController extends BaseController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/users-roles")
+    @PostMapping("/roles/add")
     public ModelAndView changeRoleConfirm(@RequestParam String username, @RequestParam String role) throws Exception, UserCannotSaveException {
         userService.changeRole(username, RoleEnum.valueOf(role.toUpperCase()));
         return super.redirect("/users-profile");

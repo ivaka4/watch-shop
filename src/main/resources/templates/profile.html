@@ -40,12 +40,13 @@
             <div sec:authorize="hasAuthority('ADMIN')" class="panel panel-default">
                 <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
                 <ul class="list-group">
-                <li class="list-group-item text-right"><span class="pull-left"><a href="/add-product">
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/product/add">
                     <strong>Upload Product</strong></a></span>
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><a href="/users-roles">
+                    </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
                     <strong>Change Role</strong></a></span>
-                </li></ul>
+                    </li>
+                </ul>
             </div>
 
 
@@ -70,13 +71,13 @@
         </div><!--/col-3-->
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="/users-profile">Profile information</a></li>
+                <li class="active"><a data-toggle="tab" href="/users/profile">Profile information</a></li>
             </ul>
 
             <div class="tab-content">
                 <div class="tab-pane active" id="update">
                     <hr>
-                    <form class="form" th:action="@{/users-update}" th:method="post">
+                    <form class="form" th:action="@{/users/update}" th:method="post">
                         <div class="form-group">
 
                             <div class="col-xs-6">
@@ -366,4 +367,6 @@
 </div><!--/row-->
 
 <th:block th:include="~{fragments/footer}"></th:block>
+<th:block th:include="~{fragments/script}"></th:block>
 </body>
+</html>

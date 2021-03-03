@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductServiceModel{
 
+    private Long id;
     private String name;
     private String description;
     private String make;

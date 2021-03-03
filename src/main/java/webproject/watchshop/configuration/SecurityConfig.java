@@ -40,20 +40,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/assets/**").permitAll()
-                .antMatchers("/", "/users-register", "/users-login", "/shop", "/about", "/contact").permitAll()
+                .antMatchers("/", "/users/register", "/users/login", "/shop", "/about", "/contact").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/users-login")
+                .loginPage("/users/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
 
                 .defaultSuccessUrl("/")
-                .failureUrl("/users-login")
+                .failureUrl("/users/login")
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
-                .logoutUrl("/users-logout")
+                .logoutUrl("/users/logout")
                 .logoutSuccessUrl("/");
 
 

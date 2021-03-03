@@ -12,6 +12,7 @@ import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -41,5 +42,30 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductServiceModel> getAllProducts() {
         return this.modelMapper.map(this.productRepository.findAll(), new TypeToken<List<ProductServiceModel>>() {
         }.getType());
+    }
+
+    @Override
+    @Transactional
+    public Optional<ProductServiceModel> getProductBy(Long id) {
+        return this.productRepository.findById(id).map(ProductServiceImpl::mapToDetails);
+    }
+    private static ProductServiceModel mapToSummary(Product offerEntity) {
+        ProductServiceModel offerModel = new ProductServiceModel();
+        mapToSummary(offerEntity, offerModel);
+        return offerModel;
+    }
+
+    private static void mapToSummary(Product offerEntity, ProductServiceModel offerModel) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.map(offerEntity, offerModel);
+    }
+
+    private static ProductServiceModel mapToDetails(Product offerEntity) {
+        ProductServiceModel offerModel = new ProductServiceModel();
+        mapToSummary(offerEntity, offerModel);
+//    offerModel.
+//        setSellerFirstName(offerEntity.getSeller().getFirstName()).
+//        setSellerLastName(offerEntity.getSeller().getLastName());
+        return offerModel;
     }
 }

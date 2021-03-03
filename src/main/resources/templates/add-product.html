@@ -40,10 +40,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
                 <ul class="list-group">
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/add-product">
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/product/add">
                     <strong>Upload Product</strong></a></span>
                     </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users-roles">
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
                     <strong>Change Role</strong></a></span>
                     </li>
                 </ul>
@@ -78,7 +78,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="add-product">
                     <hr>
-                    <form class="form" th:action="@{/add-product}" th:method="post">
+                    <form class="form" th:action="@{/users/roles/add}" th:method="post">
                         <div class="form-group">
 
                             <div class="col-xs-6">
