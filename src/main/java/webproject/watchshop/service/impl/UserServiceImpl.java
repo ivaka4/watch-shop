@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webproject.watchshop.enums.RoleEnum;
 import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
+import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.entity.Address;
 import webproject.watchshop.model.entity.User;
 import webproject.watchshop.model.entity.UserSecurity;
@@ -62,8 +63,11 @@ public class UserServiceImpl implements UserService {
             user.setAuthorities(new HashSet<>(authorityRepository.findAllByAuthority(RoleEnum.USER)));
         }
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
-
-        this.userRepository.saveAndFlush(user);
+        try {
+            this.userRepository.saveAndFlush(user);
+        } catch (Exception e) {
+            throw new UserRegistrationException("Oops something went wrong, user cannot be saved! Try again");
+        }
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 

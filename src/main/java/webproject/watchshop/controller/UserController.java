@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.enums.RoleEnum;
+import webproject.watchshop.exceptions.CustomBaseException;
+import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
+import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.binding.UserRegisterBindingModel;
 import webproject.watchshop.model.binding.UserUpdateProfileBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
@@ -111,4 +115,6 @@ public class UserController extends BaseController {
         userService.changeRole(username, RoleEnum.valueOf(role.toUpperCase()));
         return super.redirect("/users-profile");
     }
+
+
 }

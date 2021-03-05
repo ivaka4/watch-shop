@@ -2,15 +2,17 @@ package webproject.watchshop.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import webproject.watchshop.exceptions.CustomBaseException;
+import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
+import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
+import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.binding.ProductAddBindingModel;
 import webproject.watchshop.model.binding.ProductCategoryBindingModel;
 import webproject.watchshop.model.service.ProductCategoryServiceModel;
@@ -71,4 +73,6 @@ public class ProductCategoryController extends BaseController {
         this.productCategoryService.addCategory(productCategoryServiceModel);
         return super.redirect("/product/add");
     }
+
+
 }
