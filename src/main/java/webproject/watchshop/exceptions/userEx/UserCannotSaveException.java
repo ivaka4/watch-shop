@@ -1,4 +1,4 @@
-package webproject.watchshop.exceiptions.userEx;
+package webproject.watchshop.exceptions.userEx;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

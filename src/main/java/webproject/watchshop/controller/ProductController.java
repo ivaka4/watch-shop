@@ -44,14 +44,18 @@ public class ProductController extends BaseController {
     @GetMapping("/add")
     public ModelAndView addProduct(Model model) {
         ModelAndView modelAndView = new ModelAndView("add-product");
-        UserServiceModel userServiceModel = this.userService.findByUsername(this.tools.getLoggedUser());
-        UserViewModel userViewModel = this.modelMapper.map(userServiceModel, UserViewModel.class);
+        UserViewModel userViewModel = userProfile();
         modelAndView.addObject("userUpdate", userViewModel);
         modelAndView.addObject("categories", productCategoryService.findAll());
         if (!model.containsAttribute("productAddBindingModel")) {
             modelAndView.addObject("productAddBindingModel", new ProductAddBindingModel());
         }
         return modelAndView;
+    }
+
+    private UserViewModel userProfile() {
+        UserServiceModel userServiceModel = this.userService.findByUsername(this.tools.getLoggedUser());
+        return this.modelMapper.map(userServiceModel, UserViewModel.class);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -63,7 +67,7 @@ public class ProductController extends BaseController {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
-            return super.redirect("/add-product");
+            return super.redirect("/product/add");
         }
         ProductServiceModel productServiceModel = this.modelMapper.map(productAddBindingModel, ProductServiceModel.class);
         this.productService.uploadProduct(productServiceModel);

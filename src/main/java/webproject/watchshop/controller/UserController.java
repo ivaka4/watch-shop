@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.enums.RoleEnum;
-import webproject.watchshop.exceiptions.userEx.UserCannotSaveException;
+import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.model.binding.UserRegisterBindingModel;
 import webproject.watchshop.model.binding.UserUpdateProfileBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
@@ -64,12 +64,12 @@ public class UserController extends BaseController {
             redirectAttributes.addFlashAttribute("userUpdate", userUpdateProfileBindingModel);
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.userRegisterModel", bindingResult);
-            return super.redirect("/users-profile");
+            return super.redirect("/users/profile");
         }
         UserServiceModel userServiceModel = this.modelMapper.map(userUpdateProfileBindingModel, UserServiceModel.class);
         userServiceModel.setUsername(this.tools.getLoggedUser());
         this.userService.updateProfile(userServiceModel);
-        return super.redirect("/users-profile");
+        return super.redirect("/users/profile");
     }
 
     @GetMapping("/users/register")

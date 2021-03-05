@@ -9,7 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webproject.watchshop.enums.RoleEnum;
-import webproject.watchshop.exceiptions.userEx.UserCannotSaveException;
+import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
+import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.model.entity.Address;
 import webproject.watchshop.model.entity.User;
 import webproject.watchshop.model.entity.UserSecurity;
@@ -22,7 +23,6 @@ import webproject.watchshop.repository.UserRepository;
 import webproject.watchshop.service.AuthorityService;
 import webproject.watchshop.service.UserService;
 
-import javax.management.relation.Role;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -103,12 +103,24 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername());
         user.setUpdatedOn(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
-        addAddressToUser(userServiceModel, user);
         user.setProfilePicture(userServiceModel.getProfilePicture());
         user.setFirstName(userServiceModel.getFirstName());
         user.setLastName(userServiceModel.getLastName());
         user.setPhone(Integer.parseInt(userServiceModel.getPhone()));
         user.setEmail(userServiceModel.getEmail());
+        this.userRepository.saveAndFlush(user);
+        Address userAddress = user.getAddress();
+        if (userAddress != null) {
+            userAddress.setCountry(userServiceModel.getCountry());
+            userAddress.setCity(userServiceModel.getCity());
+            userAddress.setPostCode(userServiceModel.getPostCode());
+            userAddress.setAddress1(userServiceModel.getAddress1());
+            userAddress.setAddress2(userServiceModel.getAddress2());
+            this.addressRepository.saveAndFlush(userAddress);
+            user.setAddress(userAddress);
+        } else {
+            throw new AddressIsNotExistException("Address is not Exist (internal error)!");
+        }
         return this.modelMapper.map(user, UserServiceModel.class);
     }
 
@@ -132,8 +144,6 @@ public class UserServiceImpl implements UserService {
             } else if (authority.equals(RoleEnum.ADMIN)) {
                 user.getAuthorities().add(authorityRepository.findByAuthority(authority));
                 userRepository.saveAndFlush(user);
-            } else {
-                throw new UserCannotSaveException("Exs");
             }
         } else {
             throw new UserCannotSaveException("User cannot be saved");

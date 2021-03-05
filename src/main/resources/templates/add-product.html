@@ -45,6 +45,8 @@
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
                     <strong>Change Role</strong></a></span>
+                    </li><li class="list-group-item text-right"><span class="pull-left"><a href="/category/add">
+                    <strong>Add Product Category</strong></a></span>
                     </li>
                 </ul>
             </div>
@@ -78,7 +80,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="add-product">
                     <hr>
-                    <form class="form" th:action="@{/users/roles/add}" th:method="post">
+                    <form class="form" th:action="@{/product/add}" th:method="post">
                         <div class="form-group">
 
                             <div class="col-xs-6">

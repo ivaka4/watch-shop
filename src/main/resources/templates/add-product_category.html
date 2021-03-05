@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -26,7 +26,7 @@
 
 <div class="container bootstrap snippet">
     <div class="row">
-        <div th:object="${userUpdate}" class="col-sm-3"><!--left col-->
+        <div th:object="${productCategoryBindingModel}" class="col-sm-3"><!--left col-->
 
 
             <div class="text-center">
@@ -37,7 +37,7 @@
             </hr><br>
 
 
-            <div sec:authorize="hasAuthority('ADMIN')" class="panel panel-default">
+            <div class="panel panel-default">
                 <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
                 <ul class="list-group">
                     <li class="list-group-item text-right"><span class="pull-left"><a href="/product/add">
@@ -45,9 +45,7 @@
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
                     <strong>Change Role</strong></a></span>
-                    </li>
-                    </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/category/add">
+                    </li><li class="list-group-item text-right"><span class="pull-left"><a href="/category/add">
                     <strong>Add Product Category</strong></a></span>
                     </li>
                 </ul>
@@ -75,120 +73,38 @@
         </div><!--/col-3-->
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="/users/profile">Profile information</a></li>
+                <li class="active"><a data-toggle="tab">Add product Category</a></li>
             </ul>
 
+
             <div class="tab-content">
-                <div class="tab-pane active" id="update">
+                <div class="tab-pane active" id="add-product">
                     <hr>
-                    <form class="form" th:action="@{/users/update}" th:method="post">
+                    <form class="form" th:action="@{/category/add}" th:method="post">
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="firstName"><h4>First name</h4></label>
-                                <input th:value="${userUpdate.firstName}" type="text" class="form-control"
-                                       name="firstName"
-                                       id="firstName"
-                                       placeholder="First Name" title="enter your first name if any.">
-                            </div>
-                        </div>
-                        <div class="form-group">
-
-                            <div class="col-xs-6">
-                                <label for="lastName"><h4>Last name</h4></label>
-                                <input th:value="${userUpdate.lastName}" type="text" class="form-control"
-                                       name="lastName" id="lastName"
-                                       placeholder="Last Name" title="enter your last name if any.">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-
-                            <div class="col-xs-6">
-                                <label for="phone"><h4>Phone Number</h4></label>
-                                <input th:value="${userUpdate.phone}" type="number" class="form-control" name="phone"
-                                       id="phone"
-                                       placeholder="enter phone number" title="enter your phone number if any.">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="email"><h4>Email</h4></label>
-                                <input th:value="${userUpdate.email}" type="email" class="form-control" name="email"
-                                       id="email"
-                                       placeholder="you@email.com" title="enter your email.">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="city"><h4>City</h4></label>
-                                <input th:value="${userUpdate.address.city}" type="text" class="form-control"
-                                       name="city" id="city"
-                                       placeholder="City" title="enter a city">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="email"><h4>Country</h4></label>
-                                <input th:value="${userUpdate.address.country}" type="text" class="form-control"
-                                       id="country" name="country"
-                                       placeholder="Country" title="enter a country">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="address1"><h4>Address 1</h4></label>
-                                <input th:value="${userUpdate.address.getAddress1()}" type="text" class="form-control"
-                                       id="address1" name="address1"
-                                       placeholder="Address 1" title="enter an address">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="address2"><h4>Address 2</h4></label>
-                                <input th:value="${userUpdate.address.address2}" type="text" class="form-control"
-                                       id="address2" name="address2"
-                                       placeholder="Address 2" title="enter an address">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="postCode"><h4>Post Code</h4></label>
-                                <input th:value="${userUpdate.address.postCode}" type="text" class="form-control"
-                                       id="postCode" name="postCode"
-                                       placeholder="Post code" title="enter a post code">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="profilePicture"><h4>Profile Picture</h4></label>
-                                <input th:value="${userUpdate.profilePicture}" type="text" class="form-control"
-                                       id="profilePicture" name="profilePicture"
-                                       placeholder="No profile picture" title="Enter profile picture URL">
+                                <label for="category"><h4>Category name</h4></label>
+                                <input th:value="${productCategoryBindingModel.category}" type="text" class="form-control"
+                                       name="category"
+                                       id="category"
+                                       placeholder="Product name" title="enter your category name">
                             </div>
                         </div>
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="password"><h4>Password</h4></label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="password" title="enter your password.">
-                            </div>
-                        </div>
-                        <div class="form-group">
-
-                            <div class="col-xs-6">
-                                <label for="confirmPassword"><h4>Confirm Password</h4></label>
-                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
-                                       placeholder="password2" title="enter your password2.">
+                                <label for="description"><h4>Description</h4></label>
+                                <input th:value="${productCategoryBindingModel.description}" type="text" class="form-control"
+                                       name="description" id="description"
+                                       placeholder="Description" title="enter your category description">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <br>
                                 <button class="btn btn-lg btn-success" type="submit"><i
-                                        class="glyphicon glyphicon-ok-sign"></i> Save
+                                        class="glyphicon glyphicon-ok-sign"></i> Add Category
                                 </button>
                             </div>
                         </div>
@@ -371,6 +287,4 @@
 </div><!--/row-->
 
 <th:block th:include="~{fragments/footer}"></th:block>
-<th:block th:include="~{fragments/script}"></th:block>
 </body>
-</html>

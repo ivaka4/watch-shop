@@ -30,6 +30,9 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductServiceModel uploadProduct(ProductServiceModel productServiceModel) {
         Product product = this.modelMapper.map(productServiceModel, Product.class);
+//        if (productServiceModel.getCategory() == null){
+//            throw new Exception("Make custom exception");
+//        }
         ProductCategory productCategory = this.modelMapper.map(productCategoryService
                 .findProductCategory(productServiceModel.getCategory()), ProductCategory.class);
         product.setCategory(productCategory);

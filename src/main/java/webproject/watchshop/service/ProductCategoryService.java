@@ -10,4 +10,6 @@ public interface ProductCategoryService {
 
     List<ProductCategoryServiceModel> findAll();
 
+    ProductCategoryServiceModel addCategory(ProductCategoryServiceModel productCategoryServiceModel);
+
 }

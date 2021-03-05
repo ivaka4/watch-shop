@@ -40,11 +40,15 @@
             <div sec:authorize="hasAuthority('ADMIN')" class="panel panel-default">
                 <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
                 <ul class="list-group">
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/add-product">
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/product/add">
                     <strong>Upload Product</strong></a></span>
                     </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users-roles">
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
                     <strong>Change Role</strong></a></span>
+                    </li>
+                    </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="/category/add">
+                    <strong>Add Product Category</strong></a></span>
                     </li>
                 </ul>
             </div>
@@ -71,14 +75,14 @@
         </div><!--/col-3-->
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" >Change user role</a></li>
+                <li class="active"><a data-toggle="tab">Change user role</a></li>
             </ul>
 
 
             <div class="tab-content">
                 <div class="tab-pane active" id="add-product">
                     <hr>
-                    <form action="/users-roles" method="post"
+                    <form action="/users/roles/add" method="post"
                           class="tm-edit-product-form">
                         <div class="form-group col-xs-6">
                             <label for="username"

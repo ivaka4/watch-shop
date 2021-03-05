@@ -17,5 +17,4 @@ public class ProductCategoryServiceModel {
     private Long id;
     private String category;
     private String description;
-    private List<ProductViewModel> products;
 }
