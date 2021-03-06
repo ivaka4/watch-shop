@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webproject.watchshop.exceptions.productEx.ProductIdNotValid;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.entity.ProductCategory;
 import webproject.watchshop.model.service.ProductServiceModel;
@@ -49,8 +50,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Optional<ProductServiceModel> getProductBy(Long id) {
-        return this.productRepository.findById(id).map(ProductServiceImpl::mapToDetails);
+    public ProductServiceModel getProductBy(Long id) {
+        ProductServiceModel productServiceModel = this.modelMapper.map(this.productRepository
+                .findById(id).orElse(null), ProductServiceModel.class);
+        if (productServiceModel == null){
+            throw new ProductIdNotValid("Cannot get product with this ID");
+        }
+        return productServiceModel;
     }
     private static ProductServiceModel mapToSummary(Product offerEntity) {
         ProductServiceModel offerModel = new ProductServiceModel();

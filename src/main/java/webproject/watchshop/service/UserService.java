@@ -3,6 +3,7 @@ package webproject.watchshop.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import webproject.watchshop.enums.RoleEnum;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
+import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 
@@ -23,4 +24,6 @@ public interface UserService extends UserDetailsService {
     List<UserViewModel> getAllUsers();
 
     UserServiceModel changeRole(String username, RoleEnum authority) throws Exception, UserCannotSaveException;
+
+    boolean addToCart(String username,ProductServiceModel productServiceModel) throws UserCannotSaveException;
 }

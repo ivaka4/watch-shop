@@ -7,8 +7,6 @@ import webproject.watchshop.exceptions.CustomBaseException;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "User registration exception!")
 public class UserRegistrationException extends CustomBaseException {
 
-	private static final long serialVersionUID = 1L;
-
 	public UserRegistrationException(String msg) {
         super(msg);
     }

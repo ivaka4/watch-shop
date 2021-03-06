@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import webproject.watchshop.exceptions.CustomBaseException;
 
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Product category is not selected!")
-public class ProductCategoryNotSelected extends CustomBaseException {
-
-    public ProductCategoryNotSelected(String msg) {
-        super(msg);
+public class ProductIdNotValid extends CustomBaseException {
+    public ProductIdNotValid(String message) {
+        super(message);
     }
 }

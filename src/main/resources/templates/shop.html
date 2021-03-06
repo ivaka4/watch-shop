@@ -79,7 +79,7 @@
                                     <img th:src="${product.getImageUrls().get(1)}" th:width="361" th:height="380"
                                          alt="">
                                     <div class="img-cap">
-                                        <span>Add to cart</span>
+                                        <a th:href="@{/add-to-cart/{id}(id = *{id})}"><span>Add to cart</span></a>
                                     </div>
                                     <div class="favorit-items">
                                         <span class="flaticon-heart"></span>

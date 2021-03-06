@@ -89,7 +89,7 @@ public class ProductController extends BaseController {
         ModelAndView modelAndView = new ModelAndView("product_details");
 
         ProductViewModel productViewModel = this.modelMapper
-                .map(productService.getProductBy(id).orElseThrow(), ProductViewModel.class);
+                .map(productService.getProductBy(id), ProductViewModel.class);
 
         modelAndView.addObject("product", productViewModel);
 

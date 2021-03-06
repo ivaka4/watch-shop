@@ -13,13 +13,16 @@ import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.entity.Address;
+import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.entity.User;
 import webproject.watchshop.model.entity.UserSecurity;
+import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.AddressViewModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.repository.AddressRepository;
 import webproject.watchshop.repository.AuthorityRepository;
+import webproject.watchshop.repository.ProductRepository;
 import webproject.watchshop.repository.UserRepository;
 import webproject.watchshop.service.AuthorityService;
 import webproject.watchshop.service.UserService;
@@ -37,16 +40,18 @@ public class UserServiceImpl implements UserService {
     private final AuthorityService authorityService;
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProductRepository productRepository;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, AddressRepository addressRepository, AuthorityService authorityService, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, AddressRepository addressRepository, AuthorityService authorityService, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.addressRepository = addressRepository;
         this.authorityService = authorityService;
         this.authorityRepository = authorityRepository;
         this.passwordEncoder = passwordEncoder;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -153,6 +158,19 @@ public class UserServiceImpl implements UserService {
             throw new UserCannotSaveException("User cannot be saved");
         }
         return this.modelMapper.map(user, UserServiceModel.class);
+    }
+
+    @Override
+    @Transactional
+    public boolean addToCart(String username,ProductServiceModel productServiceModel) throws UserCannotSaveException {
+        Product product = this.productRepository.findById(productServiceModel.getId()).orElse(null);
+        User user = this.userRepository.findUserByUsername(username).orElse(null);
+        if (user == null || product == null || user.getCart().contains(product)){
+            throw new UserCannotSaveException("Cannot save user");
+        }
+        user.getCart().add(product);
+        this.userRepository.saveAndFlush(user);
+        return true;
     }
 
 

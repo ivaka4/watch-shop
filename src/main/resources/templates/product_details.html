@@ -54,7 +54,7 @@
                             <p th:text="*{price}">$5</p>
                         </div>
                     <div class="add_to_cart">
-                        <a href="#" class="btn_3">add to cart</a>
+                        <a th:href="@{/add-to-cart/{id}(id = *{id})}" class="btn_3">add to cart</a>
                     </div>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import webproject.watchshop.model.entity.Blog;
+import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.view.AddressViewModel;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserServiceModel {
     private String phone;
     private String profilePicture;
     private List<Blog> blogs;
-    private List<ProductServiceModel> cart;
+    private List<Product> cart;
 
     private String postCode;
     private String city;
