@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webproject.watchshop.enums.RoleEnum;
 import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
+import webproject.watchshop.exceptions.productEx.ProductIdNotValid;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.entity.Address;
@@ -100,9 +101,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserServiceModel findByUsername(String loggedUser) {
         User user = this.userRepository.findByUsername(loggedUser);
-        System.out.println();
         UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
-        System.out.println();
         return userServiceModel;
     }
 
@@ -169,6 +168,34 @@ public class UserServiceImpl implements UserService {
             throw new UserCannotSaveException("Cannot save user");
         }
         user.getCart().add(product);
+        this.userRepository.saveAndFlush(user);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean removeAllProducts(String loggedUser) {
+        User user = this.userRepository.findUserByUsername(loggedUser).orElse(null);
+        if (user == null){
+            throw new UsernameNotFoundException("Cannot find user to clear the cart");
+        }
+        user.getCart().removeAll(user.getCart());
+        this.userRepository.saveAndFlush(user);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean removeSingleProduct(Long id, String loggedUser) {
+        User user = this.userRepository.findUserByUsername(loggedUser).orElse(null);
+        if (user == null){
+            throw new UsernameNotFoundException("User cannot be found");
+        }
+        Product product = this.productRepository.findById(id).orElse(null);
+        if (product == null){
+            throw new ProductIdNotValid("Product with this id was not found");
+        }
+        user.getCart().remove(product);
         this.userRepository.saveAndFlush(user);
         return true;
     }

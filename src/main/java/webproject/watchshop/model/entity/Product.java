@@ -31,7 +31,7 @@ public class Product extends BaseEntity {
     @Column(name = "quantity", nullable = false)
     private int quantity;
     @Column(name = "image_urls")
-    @ElementCollection(targetClass = String.class)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     private List<String> imageUrls;
     @ManyToOne()
     private ProductCategory category;

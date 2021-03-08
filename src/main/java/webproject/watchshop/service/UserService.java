@@ -26,4 +26,8 @@ public interface UserService extends UserDetailsService {
     UserServiceModel changeRole(String username, RoleEnum authority) throws Exception, UserCannotSaveException;
 
     boolean addToCart(String username,ProductServiceModel productServiceModel) throws UserCannotSaveException;
+
+    boolean removeAllProducts(String loggedUser);
+
+    boolean removeSingleProduct(Long id, String loggedUser);
 }
