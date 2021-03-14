@@ -47,14 +47,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/users/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-
                 .defaultSuccessUrl("/")
                 .failureUrl("/users/login")
+                .permitAll()
                 .and()
                 .logout()
-                .invalidateHttpSession(true)
                 .logoutUrl("/users/logout")
-                .logoutSuccessUrl("/").and()
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
                 .exceptionHandling().accessDeniedPage("/unauthorized");
 
 

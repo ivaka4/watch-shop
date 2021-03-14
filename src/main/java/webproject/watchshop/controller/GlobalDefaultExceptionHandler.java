@@ -18,13 +18,11 @@ public class GlobalDefaultExceptionHandler {
     @ExceptionHandler({AddressIsNotExistException.class,
             UsernameNotFoundException.class, UserRegistrationException.class,
             AddressIsNotExistException.class,
-            UserCannotSaveException.class})
+            UserCannotSaveException.class, CustomBaseException.class})
     @GetMapping("/error")
     public ModelAndView handleUserException(HttpServletRequest req, CustomBaseException e) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", e);
-        mav.addObject("url", req.getRequestURL());
-        mav.setViewName("error");
+        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("exception", e.getMessage());
         return mav;
     }
 }

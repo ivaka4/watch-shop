@@ -17,3 +17,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+cloudinary:
+  cloud-name: watch-shop-cloud
+  api-key: 696194539816934
+  api-secret: "${CLOUDINARY_SECRET}"

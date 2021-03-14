@@ -23,7 +23,7 @@ public interface UserService extends UserDetailsService {
 
     List<UserViewModel> getAllUsers();
 
-    UserServiceModel changeRole(String username, RoleEnum authority) throws Exception, UserCannotSaveException;
+    UserServiceModel changeRole(String username, RoleEnum authority) throws UserCannotSaveException;
 
     boolean addToCart(String username,ProductServiceModel productServiceModel) throws UserCannotSaveException;
 
