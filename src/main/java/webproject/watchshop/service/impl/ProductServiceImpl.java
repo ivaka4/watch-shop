@@ -4,36 +4,50 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import webproject.watchshop.exceptions.productEx.ProductIdNotValid;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.entity.ProductCategory;
 import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.repository.ProductRepository;
+import webproject.watchshop.service.CloudinaryService;
 import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.ProductService;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
     private final ProductCategoryService productCategoryService;
+    private final CloudinaryService cloudinaryService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, ProductCategoryService productCategoryService) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, ProductCategoryService productCategoryService, CloudinaryService cloudinaryService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.productCategoryService = productCategoryService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
     @Transactional
-    public ProductServiceModel uploadProduct(ProductServiceModel productServiceModel) {
+    public ProductServiceModel uploadProduct(ProductServiceModel productServiceModel) throws IOException {
+        MultipartFile[] img = productServiceModel.getPhotos();
         Product product = this.modelMapper.map(productServiceModel, Product.class);
+        List<String> imgUrls = new LinkedList<>();
+        for (MultipartFile multipartFile : img) {
+            String imgUploaded = cloudinaryService.uploadImage(multipartFile);
+            imgUrls.add(imgUploaded);
+        }
+        product.setImageUrls(imgUrls);
 //        if (productServiceModel.getCategory() == null){
 //            throw new Exception("Make custom exception");
 //        }
+
         ProductCategory productCategory = this.modelMapper.map(productCategoryService
                 .findProductCategory(productServiceModel.getCategory()), ProductCategory.class);
         product.setCategory(productCategory);

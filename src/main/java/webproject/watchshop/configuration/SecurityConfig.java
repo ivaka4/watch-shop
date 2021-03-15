@@ -36,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .csrf().disable()
+//                .cors().disable()
+//                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/assets/**").permitAll()
-                .antMatchers("/", "/users/register", "/users/login", "/shop", "/about", "/contact").permitAll()
+                .antMatchers("/", "/users/register", "/users/login", "/shop", "/about", "/contact", "/users/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -58,7 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/unauthorized");
+                .exceptionHandling()
+                .accessDeniedPage("/unauthorized");
 
 
     }

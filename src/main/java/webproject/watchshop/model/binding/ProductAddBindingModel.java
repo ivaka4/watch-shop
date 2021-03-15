@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 import webproject.watchshop.model.entity.ProductCategory;
 import webproject.watchshop.model.service.ProductCategoryServiceModel;
 
@@ -51,9 +52,12 @@ public class ProductAddBindingModel {
     private int quantity;
 
     @NotNull
-    private List<String> imageUrls;
+    private MultipartFile[] photos;
+//
+//    @NotNull
+//    private List<String> imageUrls;
 
-    @NotNull
+    @NotBlank
     private String category;
 
 }

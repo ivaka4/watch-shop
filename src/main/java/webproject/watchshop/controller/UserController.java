@@ -111,7 +111,7 @@ public class UserController extends BaseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/roles/add")
-    public ModelAndView changeRoleConfirm(@RequestParam String username, @RequestParam String role) throws UserCannotSaveException {
+    public ModelAndView changeRoleConfirm(@RequestParam String username, @RequestParam String role){
         userService.changeRole(username, RoleEnum.valueOf(role.toUpperCase()));
         return super.redirect("/users-profile");
     }

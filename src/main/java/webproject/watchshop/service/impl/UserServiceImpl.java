@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserServiceModel changeRole(String username, RoleEnum authority) throws UserCannotSaveException {
+    public UserServiceModel changeRole(String username, RoleEnum authority){
         User user = this.userRepository.findUserByUsername(username).orElse(null);
         if (user != null) {
             if (user.getAuthorities().size() == 2 && authority.equals(RoleEnum.USER)) {

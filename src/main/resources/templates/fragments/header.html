@@ -33,9 +33,20 @@
                                         class="flaticon-user"></span></a></li>
                                 <li><a sec:authorize="isAuthenticated" href="/users/profile"><span
                                         class="flaticon-user"></span></a></li>
-                                <li><a sec:authorize="isAuthenticated" href="/users/logout"><img
-                                        src="https://www.vhv.rs/dpng/d/268-2680828_transparent-faze-adapt-png-log-out-icon-vector.png" width="25" height="25"
-                                        alt=""></a></li>
+
+                                <li>
+                                    <form th:method="post" th:action="@{/users/logout}">
+                                        <input type="hidden"
+                                               th:name="${_csrf.parameterName}"
+                                               th:value="${_csrf.token}"/>
+                                        <button class="button-header" type="submit"
+                                            sec:authorize="isAuthenticated">
+                                            <img
+                                            src="https://www.vhv.rs/dpng/d/268-2680828_transparent-faze-adapt-png-log-out-icon-vector.png"
+                                            width="25" height="25"
+                                            alt=""></button>
+                                    </form>
+                                </li>
                                 <li><a href="/cart"><span class="flaticon-shopping-cart"></span></a></li>
                             </ul>
                         </div>

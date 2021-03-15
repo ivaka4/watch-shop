@@ -26,6 +26,7 @@ public class ProductServiceModel{
     private String productNumber;
     private BigDecimal price;
     private int quantity;
+    private MultipartFile[] photos;
     private List<String> imageUrls;
     private String category;
 

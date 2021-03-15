@@ -27,6 +27,7 @@ import webproject.watchshop.service.UserService;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/product")
@@ -65,9 +66,9 @@ public class ProductController extends BaseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add")
-    public ModelAndView addProductConfirm(@Valid @ModelAttribute ProductAddBindingModel productAddBindingModel,
+    public ModelAndView addProductConfirm(@Valid @ModelAttribute("productAddBindingModel") ProductAddBindingModel productAddBindingModel,
                                           BindingResult bindingResult,
-                                          RedirectAttributes redirectAttributes) {
+                                          RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes

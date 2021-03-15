@@ -39,6 +39,9 @@
                                 Please register now</h3>
                             <form th:object="${userRegisterModel}" class="row contact_form"
                                   th:action="@{/users/register}" th:method="post" novalidate="novalidate">
+                                <input type="hidden"
+                                       th:name="${_csrf.parameterName}"
+                                       th:value="${_csrf.token}"/>
                                 <div class="row">
                                     <div class="col-xs-6">
                                         <div class="form-group">
