@@ -51,7 +51,7 @@ public class ProductAddBindingModel {
     @Min(value = 0, message = "Quantity must be positive number")
     private int quantity;
 
-    @NotNull
+
     private MultipartFile[] photos;
 //
 //    @NotNull
