@@ -40,8 +40,14 @@ public class ProductServiceImpl implements ProductService {
         Product product = this.modelMapper.map(productServiceModel, Product.class);
         List<String> imgUrls = new LinkedList<>();
         for (MultipartFile multipartFile : img) {
-            String imgUploaded = cloudinaryService.uploadImage(multipartFile);
-            imgUrls.add(imgUploaded);
+            if (!multipartFile.isEmpty()) {
+                String imgUploaded = cloudinaryService.uploadImage(multipartFile);
+                imgUrls.add(imgUploaded);
+            } else {
+                imgUrls.add("http://localhost:8080/assets/img/gallery/gallery01.png");
+                imgUrls.add("http://localhost:8080/assets/img/gallery/gallery2.png");
+                imgUrls.add("http://localhost:8080/assets/img/gallery/gallery3.png");
+            }
         }
         product.setImageUrls(imgUrls);
 //        if (productServiceModel.getCategory() == null){
@@ -67,11 +73,23 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceModel getProductBy(Long id) {
         ProductServiceModel productServiceModel = this.modelMapper.map(this.productRepository
                 .findById(id).orElse(null), ProductServiceModel.class);
-        if (productServiceModel == null){
+        if (productServiceModel == null) {
             throw new ProductIdNotValid("Cannot get product with this ID");
         }
         return productServiceModel;
     }
+
+    @Override
+    @Transactional
+    public boolean removeProduct(Long id) {
+        Product productToRemove = this.productRepository.findById(id).orElse(null);
+        if (productToRemove == null) {
+            throw new ProductIdNotValid("Product cannot be deleted");
+        }
+        this.productRepository.delete(productToRemove);
+        return true;
+    }
+
     private static ProductServiceModel mapToSummary(Product offerEntity) {
         ProductServiceModel offerModel = new ProductServiceModel();
         mapToSummary(offerEntity, offerModel);

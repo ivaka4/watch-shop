@@ -97,4 +97,11 @@ public class ProductController extends BaseController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/delete/{id}")
+    public ModelAndView removeFromCart(@PathVariable("id") Long id) {
+        this.productService.removeProduct(id);
+        return super.redirect("/shop");
+    }
+
 }

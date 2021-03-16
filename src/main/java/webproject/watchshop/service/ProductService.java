@@ -13,4 +13,6 @@ public interface ProductService {
     List<ProductServiceModel> getAllProducts();
 
    ProductServiceModel getProductBy(Long id);
+
+    boolean removeProduct(Long id);
 }

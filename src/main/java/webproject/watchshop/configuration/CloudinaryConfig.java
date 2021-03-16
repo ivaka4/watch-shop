@@ -1,14 +1,20 @@
 package webproject.watchshop.configuration;
 
 import com.cloudinary.Cloudinary;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.unit.DataSize;
+
+import javax.servlet.MultipartConfigElement;
 
 
 @Configuration
+@ServletComponentScan
 public class CloudinaryConfig {
     @Value("${cloudinary.cloud-name}")
     private String cloudName;
@@ -24,5 +30,13 @@ public class CloudinaryConfig {
         config.put("api_key", apiKey);
         config.put("api_secret", apiSecret);
         return new Cloudinary(config);
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(DataSize.ofBytes(512000000L));
+        factory.setMaxRequestSize(DataSize.ofBytes(512000000L));
+        return factory.createMultipartConfig();
     }
 }

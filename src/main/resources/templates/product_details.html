@@ -1,100 +1,107 @@
 <!doctype html>
-<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:include="~{/fragments/head}"></th:block>
 
 <body>
 
 <th:block th:include="~{/fragments/header}"></th:block>
-    <main>
-        <!-- Hero Area Start-->
-        <div class="slider-area ">
-            <div class="single-slider slider-height2 d-flex align-items-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="hero-cap text-center">
-                                <h2>Watch Shop</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Hero Area End-->
-        <!--================Single Product Area =================-->
-        <div th:object="${product}" class="product_image_area">
+<main>
+    <!-- Hero Area Start-->
+    <div class="slider-area ">
+        <div class="single-slider slider-height2 d-flex align-items-center">
             <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                <div class="product_img_slide owl-carousel">
-                    <div class="single_product_img" th:height="350" th:width="350">
-                        <img th:src="*{getImageUrls().get(0)}" th:width="350" th:height="350" alt="#" class="img-fluid">
-                    </div>
-                    <div class="single_product_img">
-                        <img th:src="*{getImageUrls().get(1)}" th:width="350" th:height="350" alt="#" class="img-fluid">
-                    </div>
-                    <div class="single_product_img">
-                        <img th:src="*{getImageUrls().get(2)}" th:width="350" th:height="350" alt="#" class="img-fluid">
-                    </div>
-                </div>
-                </div>
-                <div class="col-lg-8">
-                <div class="single_product_text text-center">
-                    <h3 th:text="*{name}">Foam filling cotton slow <br>
-                        rebound pillows</h3>
-                    <p th:text="*{description}">
-                        Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources. Credibly innovate granular internal or “organic” sources whereas high standards in web-readiness. Credibly innovate granular internal or organic sources whereas high standards in web-readiness. Energistically scale future-proof core competencies vis-a-vis impactful experiences. Dramatically synthesize integrated schemas. with optimal networks.
-                    </p>
-                    <div class="card_area">
-                        <div class="product_count_area">
-                            <p>Quantity</p>
-                            <div class="product_count d-inline-block">
-                                <p th:text="*{quantity}"></p>
-                            </div>
-                            <p th:text="*{price}">$5</p>
-                        </div>
-                    <div class="add_to_cart">
-                        <a th:href="@{/add-to-cart/{id}(id = *{id})}" class="btn_3">add to cart</a>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        <!--================End Single Product Area =================-->
-        <!-- subscribe part here -->
-        <section class="subscribe_part section_padding">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="subscribe_part_content">
-                            <h2>Get promotions & updates!</h2>
-                            <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources credibly innovate granular internal .</p>
-                            <div class="subscribe_form">
-                                <input type="email" placeholder="Enter your mail">
-                                <a href="#" class="btn_1">Subscribe</a>
-                            </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Watch Shop</h2>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- subscribe part end -->
-    </main>
-   <th:block th:include="~{fragments/footer}"></th:block>
-    <!--? Search model Begin -->
-    <div class="search-model-box">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-btn">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Searching key.....">
-            </form>
         </div>
     </div>
-    <!-- Search model end -->
+    <!-- Hero Area End-->
+    <!--================Single Product Area =================-->
+    <div th:object="${product}" class="product_image_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="product_img_slide owl-carousel">
+                        <div class="single_product_img" height="350" width="350">
+                            <img th:src="*{getImageUrls().get(0)}" width="350" height="350" alt="#" class="img-fluid">
+                        </div>
+                        <div class="single_product_img">
+                            <img th:if="*{getImageUrls().size() > 1}" th:src="*{getImageUrls().get(1)}" width="350" height="350" alt="#" class="img-fluid">
+                        </div>
+                        <div class="single_product_img">
+                            <img th:if="*{getImageUrls().size() > 2} " th:src="*{getImageUrls().get(2)}" width="350" height="350" alt="#" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="single_product_text text-center">
+                        <h3 th:text="*{name}">Foam filling cotton slow <br>
+                            rebound pillows</h3>
+                        <p th:text="*{description}">
+                            Seamlessly empower fully researched growth strategies and interoperable internal or
+                            “organic” sources. Credibly innovate granular internal or “organic” sources whereas high
+                            standards in web-readiness. Credibly innovate granular internal or organic sources whereas
+                            high standards in web-readiness. Energistically scale future-proof core competencies
+                            vis-a-vis impactful experiences. Dramatically synthesize integrated schemas. with optimal
+                            networks.
+                        </p>
+                        <div class="card_area">
+                            <div class="product_count_area">
+                                <p>Price:</p>
+                                <div class="product_count d-inline-block">
 
-    <!-- JS here -->
+                                    <p th:text="|*{price} $|"></p></div>
+                            </div>
+                            <div class="add_to_cart">
+                                <a th:href="@{/add-to-cart/{id}(id = *{id})}" class="btn_3">add to cart</a>
+                                <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/product/edit/{id}(id = *{id})}" class="btn_3">edit</a>
+                                <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/product/delete/{id}(id = *{id})}" class="btn_3">delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================End Single Product Area =================-->
+    <!-- subscribe part here -->
+    <section class="subscribe_part section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="subscribe_part_content">
+                        <h2>Get promotions & updates!</h2>
+                        <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic”
+                            sources credibly innovate granular internal .</p>
+                        <div class="subscribe_form">
+                            <input type="email" placeholder="Enter your mail">
+                            <a href="#" class="btn_1">Subscribe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- subscribe part end -->
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+<!--? Search model Begin -->
+<div class="search-model-box">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-btn">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Searching key.....">
+        </form>
+    </div>
+</div>
+<!-- Search model end -->
+
+<!-- JS here -->
 
 <th:block th:include="~{fragments/script}"></th:block>
 

@@ -76,7 +76,7 @@
                              th:object="${product}" class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                             <div class="single-popular-items mb-50 text-center">
                                 <div class="popular-img">
-                                    <img th:src="${product.getImageUrls().get(1)}" th:width="361" th:height="380"
+                                    <img th:src="${product.getImageUrls().get(0)}" th:width="361" th:height="380"
                                          alt="">
                                     <div class="img-cap">
                                         <a th:href="@{/add-to-cart/{id}(id = *{id})}"><span>Add to cart</span></a>
