@@ -90,6 +90,35 @@ public class ProductServiceImpl implements ProductService {
         return true;
     }
 
+    @Override
+    @Transactional
+    public ProductServiceModel editProduct(ProductServiceModel psm) throws IOException {
+        Product product = this.productRepository.findById(psm.getId()).orElse(null);
+        if (product == null){
+            throw new ProductIdNotValid("Product cannot be found");
+        }
+        ProductCategory productCategory = this.modelMapper
+                .map(this.productCategoryService.findProductCategory(psm.getCategory()),ProductCategory.class);
+        product.setCategory(productCategory);
+        product.setName(psm.getName());
+        product.setDescription(psm.getDescription());
+        product.setMake(psm.getMake());
+        product.setModel(psm.getModel());
+        product.setPrice(psm.getPrice());
+        product.setProductNumber(psm.getProductNumber());
+        List<String> imgUrls = new LinkedList<>();
+        for (MultipartFile multipartFile : psm.getPhotos()) {
+            if (!multipartFile.isEmpty()) {
+                String imgUploaded = cloudinaryService.uploadImage(multipartFile);
+                imgUrls.add(imgUploaded);
+            }
+        }
+        product.getImageUrls().clear();
+        product.setImageUrls(imgUrls);
+        this.productRepository.saveAndFlush(product);
+        return this.modelMapper.map(product, ProductServiceModel.class);
+    }
+
     private static ProductServiceModel mapToSummary(Product offerEntity) {
         ProductServiceModel offerModel = new ProductServiceModel();
         mapToSummary(offerEntity, offerModel);

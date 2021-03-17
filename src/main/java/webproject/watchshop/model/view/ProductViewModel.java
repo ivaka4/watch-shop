@@ -23,6 +23,6 @@ public class ProductViewModel {
     private BigDecimal price;
     private int quantity;
     private List<String> imageUrls;
-    private ProductCategory productCategory;
+    private ProductCategory category;
 
 }

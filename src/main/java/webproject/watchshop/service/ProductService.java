@@ -15,4 +15,6 @@ public interface ProductService {
    ProductServiceModel getProductBy(Long id);
 
     boolean removeProduct(Long id);
+
+    ProductServiceModel editProduct(ProductServiceModel psm) throws IOException;
 }

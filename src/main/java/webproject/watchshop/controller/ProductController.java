@@ -16,6 +16,7 @@ import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.binding.ProductAddBindingModel;
+import webproject.watchshop.model.binding.ProductEditBindingModel;
 import webproject.watchshop.model.service.ProductCategoryServiceModel;
 import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
@@ -99,8 +100,39 @@ public class ProductController extends BaseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete/{id}")
-    public ModelAndView removeFromCart(@PathVariable("id") Long id) {
+    public ModelAndView deleteProduct(@PathVariable("id") Long id) {
         this.productService.removeProduct(id);
+        return super.redirect("/shop");
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/edit/{id}")
+    public ModelAndView editProduct(@PathVariable("id") Long id, Model model) {
+        ModelAndView modelAndView = new ModelAndView("edit-product");
+        UserViewModel userViewModel = userProfile();
+        modelAndView.addObject("userUpdate", userViewModel);
+        ProductViewModel productViewModel = this.modelMapper.map(productService.getProductBy(id), ProductViewModel.class);
+        modelAndView.addObject("categories", productCategoryService.findAll());
+        modelAndView.addObject("productEditModel", productViewModel);
+        if (!model.containsAttribute("productEditBindingModel")) {
+            modelAndView.addObject("productEditBindingModel", new ProductEditBindingModel());
+        }
+        return modelAndView;
+    }
+
+    @PreAuthorize("hasAnyAuthority('MANAGER','ADMIN')")
+    @PostMapping("/edit")
+    public ModelAndView productUpdate(@ModelAttribute("productEditBindingModel") ProductEditBindingModel productEditBindingModel,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) throws IOException {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productEditBindingModel", productEditBindingModel);
+            redirectAttributes.addFlashAttribute("productEditBindingModel", productEditBindingModel);
+            return super.redirect("/product/update");
+        }
+
+        ProductServiceModel psm = this.modelMapper.map(productEditBindingModel, ProductServiceModel.class);
+        this.productService.editProduct(psm);
         return super.redirect("/shop");
     }
 
