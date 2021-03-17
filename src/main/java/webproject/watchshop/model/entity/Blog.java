@@ -15,9 +15,11 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Blog extends BaseEntity{
+public class Blog extends BaseEntity {
     @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
+    private String description;
     @ManyToOne
     private User author;
     @OneToMany

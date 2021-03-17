@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -26,7 +26,7 @@
 
 <div class="container bootstrap snippet">
     <div class="row">
-        <div class="col-sm-3"><!--left col-->
+        <div th:object="${productCategoryBindingModel}" class="col-sm-3"><!--left col-->
 
 
             <div class="text-center">
@@ -37,7 +37,7 @@
             </hr><br>
 
 
-            <div sec:authorize="hasAuthority('ADMIN')" class="panel panel-default">
+            <div class="panel panel-default">
                 <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
                 <ul class="list-group">
                     <li class="list-group-item text-right"><span class="pull-left"><a href="/product/add">
@@ -45,17 +45,8 @@
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
                     <strong>Change Role</strong></a></span>
-                    </li>
-                    </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/category/add">
+                    </li><li class="list-group-item text-right"><span class="pull-left"><a href="/category/add">
                     <strong>Add Product Category</strong></a></span>
-                    </li>
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <a href="/blog/category/add">
-                                <strong>Add Blog Category</strong>
-                            </a>
-                        </span>
                     </li>
                 </ul>
             </div>
@@ -82,42 +73,38 @@
         </div><!--/col-3-->
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab">Change user role</a></li>
+                <li class="active"><a data-toggle="tab">Add product Category</a></li>
             </ul>
 
 
             <div class="tab-content">
                 <div class="tab-pane active" id="add-product">
                     <hr>
-                    <form action="/users/roles/add" method="post"
-                          class="tm-edit-product-form">
-                        <div class="form-group col-xs-6">
-                            <label for="username"
-                                   class="form-group col-xs-6">Users</label>
-                            <select class="form-group col-xs-6" id="username"
-                                    name="username">
-                                <option value="" selected>Select user</option>
-                                <option
-                                        th:each="user : ${users}"
-                                        th:value="${user.username}"
-                                        th:text="${user.username}">
-                                </option>
+                    <form class="form" th:action="@{/blog/category/add}" th:method="post">
+                        <div class="form-group">
 
-                            </select>
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <label class="form-group col-xs-6">Roles</label>
-                            <div>
-                                <input type="radio" id="user" name="role" value="user">
-                                <label for="user">User</label><br/>
-                                <input type="radio" id="admin" name="role" value="admin">
-                                <label for="admin">Admin</label><br/>
+                            <div class="col-xs-6">
+                                <label for="category"><h4>Category name</h4></label>
+                                <input th:value="${productCategoryBindingModel.category}" type="text" class="form-control"
+                                       name="category"
+                                       id="category"
+                                       placeholder="Product name" title="enter your category name">
                             </div>
                         </div>
+                        <div class="form-group">
 
-                        <div class="input-group mb-3">
-                            <div class="ml-auto col-xl-8 col-lg-8 col-md-8 col-sm-7 pl-0">
-                                <button type="submit" class="btn btn-primary">Change
+                            <div class="col-xs-6">
+                                <label for="description"><h4>Description</h4></label>
+                                <input th:value="${productCategoryBindingModel.description}" type="text" class="form-control"
+                                       name="description" id="description"
+                                       placeholder="Description" title="enter your category description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit"><i
+                                        class="glyphicon glyphicon-ok-sign"></i> Add Category
                                 </button>
                             </div>
                         </div>

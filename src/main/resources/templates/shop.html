@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:include="~{fragments/head}"></th:block>
 
 <body>
@@ -80,6 +80,8 @@
                                          alt="">
                                     <div class="img-cap">
                                         <a th:href="@{/add-to-cart/{id}(id = *{id})}"><span>Add to cart</span></a>
+                                        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/product/edit/{id}(id = *{id})}"><span>Edit Product</span></a>
+                                        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/product/delete/{id}(id = *{id})}"><span>Delete Product</span></a>
                                     </div>
                                     <div class="favorit-items">
                                         <span class="flaticon-heart"></span>
