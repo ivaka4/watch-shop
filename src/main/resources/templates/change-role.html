@@ -91,6 +91,9 @@
                     <hr>
                     <form action="/users/roles/add" method="post"
                           class="tm-edit-product-form">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}"/>
                         <div class="form-group col-xs-6">
                             <label for="username"
                                    class="form-group col-xs-6">Users</label>

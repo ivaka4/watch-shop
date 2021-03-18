@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import webproject.watchshop.exceptions.productEx.ProductCategoryNotSelected;
+import webproject.watchshop.exceptions.productEx.ProductCategoryNotValid;
 import webproject.watchshop.model.entity.ProductCategory;
 import webproject.watchshop.model.service.ProductCategoryServiceModel;
 import webproject.watchshop.repository.ProductCategoryRepository;
@@ -41,7 +42,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public ProductCategoryServiceModel addCategory(ProductCategoryServiceModel productCategoryServiceModel) {
         ProductCategory productCategory = this.modelMapper.map(productCategoryServiceModel, ProductCategory.class);
-
+        if (productCategory == null){
+            throw new ProductCategoryNotValid("Product category cannot be added");
+        }
         return this.modelMapper.map(this.productCategoryRepository.saveAndFlush(productCategory), ProductCategoryServiceModel.class);
     }
 }
