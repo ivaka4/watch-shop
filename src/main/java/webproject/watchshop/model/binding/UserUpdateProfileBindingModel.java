@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import webproject.watchshop.util.UniqueEmail;
 import webproject.watchshop.util.UniqueUsername;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -40,8 +42,8 @@ public class UserUpdateProfileBindingModel {
     @NotBlank
     @Length(max = 10, message = "Phone number must be 10 digits")
     private String phone;
-    @NotBlank
-    private String profilePicture;
+    @NotNull
+    private MultipartFile picture;
 
     /* For Address */
     @NotBlank

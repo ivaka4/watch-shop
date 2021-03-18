@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import webproject.watchshop.enums.RoleEnum;
 import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.productEx.ProductIdNotValid;
@@ -26,8 +27,10 @@ import webproject.watchshop.repository.AuthorityRepository;
 import webproject.watchshop.repository.ProductRepository;
 import webproject.watchshop.repository.UserRepository;
 import webproject.watchshop.service.AuthorityService;
+import webproject.watchshop.service.CloudinaryService;
 import webproject.watchshop.service.UserService;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -42,10 +45,11 @@ public class UserServiceImpl implements UserService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final ProductRepository productRepository;
+    private final CloudinaryService cloudinaryService;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, AddressRepository addressRepository, AuthorityService authorityService, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, AddressRepository addressRepository, AuthorityService authorityService, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, CloudinaryService cloudinaryService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.addressRepository = addressRepository;
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService {
         this.authorityRepository = authorityRepository;
         this.passwordEncoder = passwordEncoder;
         this.productRepository = productRepository;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -109,11 +114,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserServiceModel updateProfile(UserServiceModel userServiceModel) {
+    public UserServiceModel updateProfile(UserServiceModel userServiceModel) throws IOException {
         User user = this.userRepository.findByUsername(userServiceModel.getUsername());
         user.setUpdatedOn(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
-        user.setProfilePicture(userServiceModel.getProfilePicture());
+        MultipartFile multipartFile = userServiceModel.getPicture();
+        String imgUrl = this.cloudinaryService.uploadImage(multipartFile);
+        user.setProfilePicture(imgUrl);
         user.setFirstName(userServiceModel.getFirstName());
         user.setLastName(userServiceModel.getLastName());
         user.setPhone(Integer.parseInt(userServiceModel.getPhone()));

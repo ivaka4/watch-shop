@@ -24,6 +24,7 @@ import webproject.watchshop.service.UserService;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/users")
@@ -61,7 +62,7 @@ public class UserController extends BaseController {
     @PostMapping("/update")
     public ModelAndView profileUpdate(@Valid @ModelAttribute UserUpdateProfileBindingModel userUpdateProfileBindingModel,
                                       BindingResult bindingResult,
-                                      RedirectAttributes redirectAttributes) {
+                                      RedirectAttributes redirectAttributes) throws IOException {
 
         if (bindingResult.hasErrors() || !userUpdateProfileBindingModel.getPassword()
                 .equals(userUpdateProfileBindingModel.getConfirmPassword())) {
@@ -76,7 +77,7 @@ public class UserController extends BaseController {
         return super.redirect("/users/profile");
     }
 
-    @GetMapping("/users/register")
+    @GetMapping("/register")
     public ModelAndView register(Model model) {
         ModelAndView modelAndView = new ModelAndView("register");
         if (!model.containsAttribute("userRegisterModel")) {
@@ -85,7 +86,7 @@ public class UserController extends BaseController {
         return modelAndView;
     }
 
-    @PostMapping("/users/register")
+    @PostMapping("/register")
     public ModelAndView registerConfirm(@Valid @ModelAttribute UserRegisterBindingModel userRegisterModel,
                                         BindingResult bindingResult,
                                         RedirectAttributes redirectAttributes) {
@@ -97,7 +98,7 @@ public class UserController extends BaseController {
         }
 
         this.userService.register(this.modelMapper.map(userRegisterModel, UserServiceModel.class));
-        return super.redirect("/users-login");
+        return super.redirect("/users/login");
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

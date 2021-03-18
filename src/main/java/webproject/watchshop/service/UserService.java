@@ -7,6 +7,7 @@ import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
@@ -19,7 +20,7 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel findByUsername(String loggedUser);
 
-    UserServiceModel updateProfile(UserServiceModel userServiceModel);
+    UserServiceModel updateProfile(UserServiceModel userServiceModel) throws IOException;
 
     List<UserViewModel> getAllUsers();
 

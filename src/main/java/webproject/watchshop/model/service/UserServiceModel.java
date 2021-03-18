@@ -3,6 +3,7 @@ package webproject.watchshop.model.service;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import webproject.watchshop.model.entity.Blog;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.view.AddressViewModel;
@@ -21,6 +22,7 @@ public class UserServiceModel {
     private String firstName;
     private String lastName;
     private String phone;
+    private MultipartFile picture;
     private String profilePicture;
     private List<Blog> blogs;
     private List<Product> cart;
