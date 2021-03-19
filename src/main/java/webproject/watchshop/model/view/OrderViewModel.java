@@ -19,6 +19,11 @@ public class OrderViewModel {
     private String lastName;
     private String productName;
     private String productNumber;
+    private String productMake;
+    private String productDescription;
+    private String productModel;
+    private String productCategory;
+    private Long productId;
     private LocalDateTime buyDate;
     private BigDecimal price;
     private List<String> orderImages;

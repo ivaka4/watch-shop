@@ -21,6 +21,12 @@ public class Order extends BaseEntity{
     private String lastName;
     @Column(nullable = false)
     private LocalDateTime buyDate;
+    @Column(name = "description", nullable = false)
+    private String productDescription;
+    @Column(name = "make", nullable = false)
+    private String productMake;
+    @Column(name = "model", nullable = false)
+    private String productModel;
     @Column(nullable = false)
     private String productName;
     @Column(nullable = false, unique = true)
@@ -30,6 +36,11 @@ public class Order extends BaseEntity{
     @Column(name = "order_images")
     @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
     private List<String> orderImages;
+
+    @Column(nullable = false)
+    private String productCategory;
+    @Column(nullable = false, unique = true)
+    private Long productId;
 //    @OneToMany()
 //    private List<Product> products;
     @ManyToOne()

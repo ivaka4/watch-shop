@@ -21,7 +21,6 @@ public class ProductViewModel {
     private String model;
     private String productNumber;
     private BigDecimal price;
-    private int quantity;
     private List<String> imageUrls;
     private ProductCategory category;
 

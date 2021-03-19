@@ -47,11 +47,6 @@ public class ProductAddBindingModel {
     @Min(value = 0, message = "Price must be positive number")
     private BigDecimal price;
 
-    @NotNull
-    @Min(value = 0, message = "Quantity must be positive number")
-    private int quantity;
-
-
     private MultipartFile[] photos;
 //
 //    @NotNull

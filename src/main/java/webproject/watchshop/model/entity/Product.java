@@ -28,8 +28,6 @@ public class Product extends BaseEntity {
     private String productNumber;
     @Column(name = "price", nullable = false)
     private BigDecimal price;
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
     @Column(name = "image_urls")
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     private List<String> imageUrls;
