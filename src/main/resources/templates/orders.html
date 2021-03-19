@@ -27,68 +27,43 @@
                         <thead>
                         <tr>
                             <th>Product</th>
-                            <th>Product category</th>
+                            <th>Order date</th>
                             <th>Product code</th>
-                            <th>Total</th>
+                            <th>Product price</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <th:block th:each="product : ${products}">
+                        <th:block th:each="order : ${orders}">
                             <tr>
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
-                                            <img th:src="${product.getImageUrls().get(0)}" alt=""/>
+                                            <img th:src="${order.getOrderImages().get(0)}" alt=""/>
                                         </div>
                                         <div class="media-body">
-                                            <p th:text="${product.name}">Minimalistic shop for multipurpose use</p>
+                                            <p th:text="${order.productName}">Minimalistic shop for multipurpose use</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <h5 th:text="${product.category.category}"></h5>
+                                    <h5 th:text="${order.buyDate}"></h5>
                                 </td>
                                 <td>
-                                    <h5 th:text="${product.productNumber}">$360.00</h5>
+                                    <h5 th:text="${order.productNumber}">$360.00</h5>
                                 </td>
                                 <td>
-                                    <h5 th:text="${product.price}">$360.00</h5>
+                                    <h5 th:text="${order.price}">$360.00</h5>
                                 </td>
                                 <td>
 
-                                        <a th:href="@{/remove-from-cart/{id}(id = ${product.id})}" class="btn_3">Remove Product</a>
+                                        <a th:href="@{/order/remove/{id}(id = ${order.id})}" class="btn_3">Remove Order</a>
 
                                 </td>
 
                             </tr>
                         </th:block>
                         </tbody>
-                        <tr class="shipping_area">
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <h5>Shipping</h5>
-                            </td>
-                            <td>
-                                <div class="shipping_box">
-                                    <ul class="list">
-                                        <li>
-                                            Delivery: $5.00
-                                        </li>
-                                        <li>
-                                            <h3><span th:text="${totalPrice}+5"></span><span>$</span></h3>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
                     </table>
-
-                    <div class="checkout_btn_inner float-right">
-                        <a class="btn_1" href="/shop">Continue Shopping</a>
-                        <a class="btn_1 checkout_btn_1" href="/order/finish">Proceed to checkout</a>
-                        <a class="btn_1 checkout_btn_1" href="/cart/remove/all">Remove All</a>
-                    </div>
                 </div>
             </div>
         </div>

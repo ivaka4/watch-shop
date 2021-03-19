@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -26,6 +27,9 @@ public class Order extends BaseEntity{
     private String productNumber;
     @Column(nullable = false)
     private BigDecimal price;
+    @Column(name = "order_images")
+    @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
+    private List<String> orderImages;
 //    @OneToMany()
 //    private List<Product> products;
     @ManyToOne()

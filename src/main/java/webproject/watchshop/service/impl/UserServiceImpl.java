@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
         Product product = this.productRepository.findById(productServiceModel.getId()).orElse(null);
         User user = this.userRepository.findUserByUsername(username).orElse(null);
         if (user == null || product == null || user.getCart().contains(product)){
-            throw new UserCannotSaveException("Cannot save user");
+            throw new UserCannotSaveException("Cannot add product to cart! Already in cart");
         }
         user.getCart().add(product);
         this.userRepository.saveAndFlush(user);

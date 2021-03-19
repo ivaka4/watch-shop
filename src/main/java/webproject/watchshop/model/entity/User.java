@@ -39,7 +39,7 @@ public class User extends BaseEntity {
     private String profilePicture;
     @Column(name = "updated_on", nullable = false)
     private LocalDateTime updatedOn;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Product> cart;
     @OneToMany()
     private List<Blog> blogs;

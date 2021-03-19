@@ -35,9 +35,7 @@ public class CartController extends BaseController {
         ModelAndView modelAndView = new ModelAndView("cart");
         List<ProductViewModel> productViewModels = this
                 .modelMapper
-                .map(this
-                                .userService
-                                .findByUsername(tools.getLoggedUser()).getCart(),
+                .map(this.userService.findByUsername(tools.getLoggedUser()).getCart(),
                         new TypeToken<List<ProductViewModel>>() {
                         }.getType());
         modelAndView.addObject("products", productViewModels);
