@@ -1,5 +1,6 @@
 package webproject.watchshop.service.impl;
 
+import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -104,6 +105,8 @@ public class OrderServiceImpl implements OrderService {
         productServiceModel.setModel(order.getProductModel());
         productServiceModel.setProductNumber(order.getProductNumber());
         productServiceModel.setPrice(order.getPrice());
+        productServiceModel.setAddedOn(LocalDateTime.now());
+        productServiceModel.setEditedOn(LocalDateTime.now());
         this.productRepository.saveAndFlush(productServiceModel);
         this.orderRepository.delete(order);
         return true;

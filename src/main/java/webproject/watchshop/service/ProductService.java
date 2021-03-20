@@ -1,6 +1,7 @@
 package webproject.watchshop.service;
 
 import webproject.watchshop.model.service.ProductServiceModel;
+import webproject.watchshop.model.view.ProductViewModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ProductService {
     boolean removeProduct(Long id);
 
     ProductServiceModel editProduct(ProductServiceModel psm) throws IOException;
+
+    List<ProductViewModel> getLastThreeProduct();
 }

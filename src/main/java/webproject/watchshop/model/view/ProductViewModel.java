@@ -7,6 +7,7 @@ import lombok.Setter;
 import webproject.watchshop.model.entity.ProductCategory;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,6 +22,8 @@ public class ProductViewModel {
     private String model;
     private String productNumber;
     private BigDecimal price;
+    private LocalDateTime addedOn;
+    private LocalDateTime editedOn;
     private List<String> imageUrls;
     private ProductCategory category;
 

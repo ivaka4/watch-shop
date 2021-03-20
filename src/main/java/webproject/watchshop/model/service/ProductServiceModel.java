@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,6 +26,8 @@ public class ProductServiceModel{
     private String model;
     private String productNumber;
     private BigDecimal price;
+    private LocalDateTime addedOn;
+    private LocalDateTime editedOn;
     private MultipartFile[] photos;
     private List<String> imageUrls;
     private String category;

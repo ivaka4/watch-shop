@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -28,6 +29,10 @@ public class Product extends BaseEntity {
     private String productNumber;
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+    @Column(nullable = false)
+    private LocalDateTime addedOn;
+    @Column(nullable = false)
+    private LocalDateTime editedOn;
     @Column(name = "image_urls")
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     private List<String> imageUrls;

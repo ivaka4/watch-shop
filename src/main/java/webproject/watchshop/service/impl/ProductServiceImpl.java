@@ -9,15 +9,17 @@ import webproject.watchshop.exceptions.productEx.ProductIdNotValid;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.entity.ProductCategory;
 import webproject.watchshop.model.service.ProductServiceModel;
+import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.repository.ProductRepository;
 import webproject.watchshop.service.CloudinaryService;
 import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.ProductService;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -38,6 +40,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceModel uploadProduct(ProductServiceModel productServiceModel) throws IOException {
         MultipartFile[] img = productServiceModel.getPhotos();
         Product product = this.modelMapper.map(productServiceModel, Product.class);
+        product.setEditedOn(LocalDateTime.now());
+        product.setAddedOn(LocalDateTime.now());
         List<String> imgUrls = new LinkedList<>();
         for (MultipartFile multipartFile : img) {
             if (!multipartFile.isEmpty()) {
@@ -105,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
         product.setMake(psm.getMake());
         product.setModel(psm.getModel());
         product.setPrice(psm.getPrice());
+        product.setEditedOn(LocalDateTime.now());
         product.setProductNumber(psm.getProductNumber());
         List<String> imgUrls = new LinkedList<>();
         for (MultipartFile multipartFile : psm.getPhotos()) {
@@ -117,6 +122,14 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrls(imgUrls);
         this.productRepository.saveAndFlush(product);
         return this.modelMapper.map(product, ProductServiceModel.class);
+    }
+
+    @Override
+    public List<ProductViewModel> getLastThreeProduct() {
+        List<ProductViewModel> lastest = this.modelMapper
+                .map(this.productRepository.findLatest(),
+                        new TypeToken<List<ProductViewModel>>(){}.getType());
+        return lastest.stream().limit(3).collect(Collectors.toList());
     }
 
     private static ProductServiceModel mapToSummary(Product offerEntity) {
