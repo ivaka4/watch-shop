@@ -114,7 +114,7 @@ public class UserController extends BaseController {
     @PostMapping("/roles/add")
     public ModelAndView changeRoleConfirm(@RequestParam String username, @RequestParam String role){
         userService.changeRole(username, RoleEnum.valueOf(role.toUpperCase()));
-        return super.redirect("/users-profile");
+        return super.redirect("/users/profile");
     }
 
 

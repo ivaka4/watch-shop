@@ -52,6 +52,10 @@
                 </div>
                 <!-- Grid and List view -->
                 <div class="grid-list-view">
+                    <div class="mt-12 col-sm-12 my-auto align-self-center">
+                        <input id="searchBar" class="form-control" type="search"
+                               placeholder="Search" aria-label="Search" >
+                    </div>
                 </div>
                 <!-- Select items -->
                 <div class="select-this">
@@ -68,7 +72,8 @@
                 </div>
             </div>
             <!-- Nav Card -->
-            <div class="tab-content" id="nav-tabContent">
+            <div class="tab-content" id="productsList">
+
                 <!-- card one -->
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row">
@@ -80,25 +85,29 @@
                                          alt="">
                                     <div class="img-cap">
                                         <a th:href="@{/add-to-cart/{id}(id = *{id})}"><span>Add to cart</span></a>
-                                        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/product/edit/{id}(id = *{id})}"><span>Edit Product</span></a>
-                                        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/product/delete/{id}(id = *{id})}"><span>Delete Product</span></a>
+                                        <a sec:authorize="hasAuthority('ADMIN')"
+                                           th:href="@{/product/edit/{id}(id = *{id})}"><span>Edit Product</span></a>
+                                        <a sec:authorize="hasAuthority('ADMIN')"
+                                           th:href="@{/product/delete/{id}(id = *{id})}"><span>Delete Product</span></a>
                                     </div>
                                     <div class="favorit-items">
                                         <span class="flaticon-heart"></span>
                                     </div>
                                 </div>
                                 <div class="popular-caption">
-                                    <h3><a th:text="*{name}" th:href="@{/product/details/{id}(id = *{id})}">Thermo Ball Etip Gloves</a>
+                                    <h3><a th:text="*{name}" th:href="@{/product/details/{id}(id = *{id})}">Thermo Ball
+                                        Etip Gloves</a>
                                     </h3>
                                     <span th:text="|*{price}|">$ 45,743</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <!-- Card three -->
-        <!-- End Nav Card -->
+            <!-- End Nav Card -->
         </div>
     </section>
     <!-- Latest Products End -->
@@ -148,6 +157,7 @@
 
 <!-- JS here -->
 <!-- All JS Custom Plugins Link Here here -->
+<script th:src="@{/assets/js/search-bar.js}"></script>
 <th:block th:include="~{fragments/script}"></th:block>
 
 </body>

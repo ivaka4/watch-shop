@@ -170,17 +170,6 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <label for="quantity"><h4>Quantity</h4></label>
-                                <input th:value="*{quantity}" type="number" class="form-control"
-                                       id="quantity" name="quantity"
-                                       placeholder="Address 1" title="enter an address">
-                                <small class="span-info-text-error"
-                                       th:each="error : ${#fields.errors('quantity')}"
-                                       th:text="${error}"></small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
                                 <label for="photos"><h4>Product Picture 1</h4></label>
                                 <input type="file" class="form-control-file"
                                        id="photos" name="photos" required="required" multiple="multiple">

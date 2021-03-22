@@ -25,6 +25,6 @@ public class ProductViewModel {
     private LocalDateTime addedOn;
     private LocalDateTime editedOn;
     private List<String> imageUrls;
-    private ProductCategory category;
+    private ProductCategoryView category;
 
 }

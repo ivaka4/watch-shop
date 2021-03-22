@@ -142,6 +142,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<UserViewModel> getAllUsers() {
         return this.modelMapper.map(this.userRepository.findAll(), new TypeToken<List<UserViewModel>>() {
         }.getType());
