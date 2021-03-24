@@ -85,9 +85,9 @@ public class ProductServiceTest {
     public void testProductServiceGetProductById(){
 
         when(productService.getProductBy(1L)).thenReturn(productServiceModel);
-        System.out.println();
+
         ProductServiceModel psvm = productService.getProductBy(1L);
-        System.out.println();
+
         Assertions.assertEquals(productServiceModel.getId(), psvm.getId());
         Assertions.assertEquals(productServiceModel.getName(), psvm.getName());
 
