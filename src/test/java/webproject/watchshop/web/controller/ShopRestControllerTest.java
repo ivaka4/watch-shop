@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,6 @@ import webproject.watchshop.model.entity.ProductCategory;
 import webproject.watchshop.repository.ProductRepository;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

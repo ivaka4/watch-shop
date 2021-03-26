@@ -5,6 +5,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import webproject.watchshop.exceptions.productEx.ProductCategoryNotSelected;
 import webproject.watchshop.exceptions.productEx.ProductIdNotValid;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.entity.ProductCategory;
@@ -54,9 +55,9 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         product.setImageUrls(imgUrls);
-//        if (productServiceModel.getCategory() == null){
-//            throw new Exception("Make custom exception");
-//        }
+        if (productServiceModel.getCategory() == null){
+            throw new ProductCategoryNotSelected("Product category is not selected");
+        }
 
         ProductCategory productCategory = this.modelMapper.map(productCategoryService
                 .findProductCategory(productServiceModel.getCategory()), ProductCategory.class);
@@ -75,12 +76,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductServiceModel getProductBy(Long id) {
-        ProductServiceModel productServiceModel = this.modelMapper.map(this.productRepository
-                .findById(id).orElse(null), ProductServiceModel.class);
-        if (productServiceModel == null) {
+        Product product = this.productRepository
+                .findById(id).orElse(null);
+        if (product == null) {
             throw new ProductIdNotValid("Cannot get product with this ID");
         }
-        return productServiceModel;
+        return this.modelMapper.map(product, ProductServiceModel.class);
     }
 
     @Override

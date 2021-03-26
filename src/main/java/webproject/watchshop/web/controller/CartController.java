@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -11,9 +11,9 @@ import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.service.ProductService;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.PageTitle;
 import webproject.watchshop.util.Tools;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -30,6 +30,7 @@ public class CartController extends BaseController {
         this.tools = tools;
     }
 
+    @PageTitle(name = "Cart")
     @GetMapping("/cart")
     public ModelAndView cart() {
         ModelAndView modelAndView = new ModelAndView("cart");

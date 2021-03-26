@@ -1,5 +1,6 @@
 package webproject.watchshop.service;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,8 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 import webproject.watchshop.model.entity.Product;
@@ -28,6 +31,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -58,7 +64,7 @@ public class ProductServiceTest {
     private ProductViewModel productViewModel;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException {
         //this.mockedStoreRepository = Mockito.mock(StoreRepository.class);
         product = this.getProduct();
         productViewModel = this.getProductViewModel();
@@ -82,17 +88,79 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testProductServiceGetProductById(){
+    public void testProductServiceGetProductById() {
+        when(mockProductRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(product));
 
-        when(productService.getProductBy(1L)).thenReturn(productServiceModel);
+        ProductServiceModel serviceModel = new ProductServiceModel();
+        serviceModel.setId(1L);
+        serviceModel.setName("Rolex");
+        serviceModel.setDescription("Stylish");
 
-        ProductServiceModel psvm = productService.getProductBy(1L);
 
-        Assertions.assertEquals(productServiceModel.getId(), psvm.getId());
-        Assertions.assertEquals(productServiceModel.getName(), psvm.getName());
+        //Act
+        ProductServiceModel result = productService.getProductBy(serviceModel.getId());
 
+        //Assert
+        Assertions.assertEquals(productServiceModel.getName(), result.getName());
+        Assertions.assertEquals(productServiceModel.getId(), result.getId());
+        Assertions.assertEquals(productServiceModel.getDescription(), result.getDescription());
 
     }
+
+    @Test
+    public void testProductServiceUploadProduct() throws IOException {
+        when(mockProductRepository.save(any()))
+                .thenReturn(Optional.ofNullable(product));
+
+        ProductServiceModel serviceModel = new ProductServiceModel();
+        serviceModel.setId(1L);
+        serviceModel.setName("Rolex");
+        serviceModel.setDescription("Stylish");
+        serviceModel.setEditedOn(LocalDateTime.now());
+        serviceModel.setAddedOn(LocalDateTime.now());
+        serviceModel.setPrice(BigDecimal.valueOf(250));
+        serviceModel.setImageUrls(
+                List.of("http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258871/qpy2zdazzvaawr8gucg8.jpg",
+                        "http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258874/hwnk9rhmoqstkbl36j4z.jpg",
+                        "http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258606/wiqyq3bgigdkskgymdyz.jpg"));
+        File file = new File("C:\\Users\\Ivailo.DESKTOP-J380DFT\\Desktop\\IMG_20200408_212850.jpg");
+        FileInputStream image1 = new FileInputStream(file);
+        MultipartFile[] multipartFiles = new MultipartFile[3];
+
+            multipartFiles[0] = new MockMultipartFile("file",
+                    file.getName(), "image/jpg", image1.readAllBytes());
+        multipartFiles[1] = new MockMultipartFile("file1",
+                file.getName(), "image/jpg", image1.readAllBytes());
+        multipartFiles[2] = new MockMultipartFile("file2",
+                file.getName(), "image/jpg", image1.readAllBytes());
+
+        serviceModel.setPhotos(multipartFiles);
+        serviceModel.setModel("Casio");
+        serviceModel.setMake("Casio");
+        serviceModel.setProductNumber("12345");
+        serviceModel.setDescription("Product description");
+        serviceModel.setName("Rolex");
+        serviceModel.setCategory("Stylish");
+
+
+        //Act
+        ProductServiceModel result = productService.uploadProduct(serviceModel);
+
+        //Assert
+        Assertions.assertEquals(productServiceModel.getName(), result.getName());
+        Assertions.assertEquals(productServiceModel.getId(), result.getId());
+        Assertions.assertEquals(productServiceModel.getDescription(), result.getDescription());
+
+    }
+
+//    @Test
+//    public void testProductServiceUploadProduct() throws IOException {
+//        when(productService.uploadProduct(productServiceModel)).thenReturn(productServiceModel);
+//
+//
+//
+//    }
 
 
     public Product getProduct() {
@@ -118,7 +186,7 @@ public class ProductServiceTest {
         return product;
     }
 
-    public ProductServiceModel getProductServiceModel() {
+    public ProductServiceModel getProductServiceModel() throws IOException {
         ProductServiceModel product = new ProductServiceModel();
         product.setId(1L);
         product.setEditedOn(LocalDateTime.now());
@@ -128,16 +196,22 @@ public class ProductServiceTest {
                 List.of("http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258871/qpy2zdazzvaawr8gucg8.jpg",
                         "http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258874/hwnk9rhmoqstkbl36j4z.jpg",
                         "http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258606/wiqyq3bgigdkskgymdyz.jpg"));
+        File file = new File("C:\\Users\\Ivailo.DESKTOP-J380DFT\\Desktop\\IMG_20200408_212850.jpg");
+        FileInputStream image1 = new FileInputStream(file);
         MultipartFile[] multipartFiles = new MultipartFile[3];
+
+        multipartFiles[0] = new MockMultipartFile("file",
+                file.getName(), "image/jpg", image1.readAllBytes());
+        multipartFiles[1] = new MockMultipartFile("file2",
+                file.getName(), "image/jpg", image1.readAllBytes());
+        multipartFiles[2] = new MockMultipartFile("file3",
+                file.getName(), "image/jpg", image1.readAllBytes());
         product.setPhotos(multipartFiles);
         product.setModel("Casio");
         product.setMake("Casio");
         product.setProductNumber("12345");
         product.setDescription("Product description");
         product.setName("Rolex");
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setCategory("Stylish");
-        productCategory.setDescription("Stylish");
         product.setCategory("Stylish");
 
         return product;

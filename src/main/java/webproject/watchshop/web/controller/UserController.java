@@ -1,10 +1,9 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,15 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.enums.RoleEnum;
-import webproject.watchshop.exceptions.CustomBaseException;
-import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
-import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
-import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.binding.UserRegisterBindingModel;
 import webproject.watchshop.model.binding.UserUpdateProfileBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
@@ -39,6 +35,7 @@ public class UserController extends BaseController {
         this.tools = tools;
     }
 
+    @PageTitle(name = "User Login")
     @GetMapping("/login")
     public ModelAndView login(@AuthenticationPrincipal UserDetails user) {
         ModelAndView modelAndView = new ModelAndView("login");
@@ -46,6 +43,7 @@ public class UserController extends BaseController {
         return modelAndView;
     }
 
+    @PageTitle(name = "User Profile")
     @GetMapping("/profile")
     public ModelAndView profile(Model model) {
         ModelAndView modelAndView = new ModelAndView("profile");
@@ -77,6 +75,7 @@ public class UserController extends BaseController {
         return super.redirect("/users/profile");
     }
 
+    @PageTitle(name = "User Register")
     @GetMapping("/register")
     public ModelAndView register(Model model) {
         ModelAndView modelAndView = new ModelAndView("register");
@@ -101,6 +100,7 @@ public class UserController extends BaseController {
         return super.redirect("/users/login");
     }
 
+    @PageTitle(name = "User Roles")
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/roles/add")
     public ModelAndView changeRole(){

@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +18,7 @@ import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.BlogCategoryService;
 import webproject.watchshop.service.BlogService;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
@@ -45,16 +46,19 @@ public class BlogController extends BaseController{
         return this.modelMapper.map(userServiceModel, UserViewModel.class);
     }
 
+    @PageTitle(name = "Title")
     @GetMapping
     public ModelAndView blog() {
         return new ModelAndView("blog");
     }
 
+    @PageTitle(name = "Blog Details")
     @GetMapping("/details")
     public ModelAndView blogDetails() {
         return new ModelAndView("blog-details");
     }
 
+    @PageTitle(name = "Blog category add")
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/category/add")
     public ModelAndView blogCategoryAdd(Model model) {

@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import webproject.watchshop.model.view.OrderViewModel;
 import webproject.watchshop.service.OrderService;
+import webproject.watchshop.util.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class OrderController extends BaseController {
         return super.redirect("/order/all");
     }
 
+    @PageTitle(name = "Orders")
     @GetMapping("/all")
     public ModelAndView allOrders(){
         ModelAndView modelAndView = new ModelAndView("orders");

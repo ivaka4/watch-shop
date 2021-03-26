@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.service.ProductService;
+import webproject.watchshop.util.PageTitle;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class HomeController extends BaseController {
         this.productService = productService;
     }
 
+    @PageTitle(name = "Home")
     @GetMapping("/")
     public ModelAndView index(@AuthenticationPrincipal
     UserDetails user) {

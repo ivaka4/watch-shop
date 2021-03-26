@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.service.ProductService;
+import webproject.watchshop.util.PageTitle;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class ShopRestController {
     }
 
 
+    @PageTitle(name = "AJAX")
     @GetMapping("/api")
     public ResponseEntity<List<ProductViewModel>> findAll() {
         return ResponseEntity

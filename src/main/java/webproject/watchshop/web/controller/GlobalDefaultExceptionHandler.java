@@ -1,4 +1,4 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,12 +9,14 @@ import webproject.watchshop.exceptions.CustomBaseException;
 import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.exceptions.userEx.UserRegistrationException;
+import webproject.watchshop.util.PageTitle;
 
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler {
 
+    @PageTitle(name = "Error")
     @ExceptionHandler({AddressIsNotExistException.class,
             UsernameNotFoundException.class, UserRegistrationException.class,
             AddressIsNotExistException.class, CustomBaseException.class, UserCannotSaveException.class})

@@ -1,26 +1,20 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import webproject.watchshop.exceptions.CustomBaseException;
-import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
-import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
-import webproject.watchshop.exceptions.userEx.UserRegistrationException;
-import webproject.watchshop.model.binding.ProductAddBindingModel;
 import webproject.watchshop.model.binding.ProductCategoryBindingModel;
 import webproject.watchshop.model.service.ProductCategoryServiceModel;
-import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
@@ -40,6 +34,7 @@ public class ProductCategoryController extends BaseController {
         this.userService = userService;
     }
 
+    @PageTitle(name = "Product Category add")
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/add")
     public ModelAndView addProduct(Model model) {

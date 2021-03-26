@@ -1,23 +1,15 @@
-package webproject.watchshop.controller;
+package webproject.watchshop.web.controller;
 
-import jdk.jfr.ContentType;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import webproject.watchshop.exceptions.CustomBaseException;
-import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
-import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
-import webproject.watchshop.exceptions.userEx.UserRegistrationException;
 import webproject.watchshop.model.binding.ProductAddBindingModel;
 import webproject.watchshop.model.binding.ProductEditBindingModel;
-import webproject.watchshop.model.service.ProductCategoryServiceModel;
 import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.ProductViewModel;
@@ -25,6 +17,7 @@ import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.ProductCategoryService;
 import webproject.watchshop.service.ProductService;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
@@ -47,6 +40,7 @@ public class ProductController extends BaseController {
         this.tools = tools;
     }
 
+    @PageTitle(name = "Product Add")
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/add")
     public ModelAndView addProduct(Model model) {
@@ -86,6 +80,7 @@ public class ProductController extends BaseController {
         return new ModelAndView("product_details");
     }
 
+    @PageTitle(name = "Product Details")
     @GetMapping("/details/{id}")
     public ModelAndView offerDetails(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("product_details");
@@ -98,6 +93,7 @@ public class ProductController extends BaseController {
         return modelAndView;
     }
 
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") Long id) {
@@ -105,6 +101,7 @@ public class ProductController extends BaseController {
         return super.redirect("/shop");
     }
 
+    @PageTitle(name = "Product edit")
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/edit/{id}")
     public ModelAndView editProduct(@PathVariable("id") Long id, Model model) {
