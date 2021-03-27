@@ -1,35 +1,28 @@
 package webproject.watchshop.web.controller;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import webproject.watchshop.WatchShopApplication;
-import webproject.watchshop.model.service.UserServiceModel;
-import webproject.watchshop.service.UserService;
+import webproject.watchshop.service.ProductCategoryService;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = WatchShopApplication.class)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class ProductControllerTest {
+public class BlogControllerTest {
 
     private static final String TEST_USER = "gosho";
 
@@ -37,46 +30,50 @@ public class ProductControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService mockUserService;
+    private ProductCategoryService productCategoryService;
 
     @Test
     @WithMockUser(username="admin",authorities={"USER","ADMIN"})
-    public void addProductTest() throws Exception {
-
-        MockMultipartFile mockMultipartFile = new MockMultipartFile(
-                "photos",
-                "file.txt",
-                MediaType.TEXT_PLAIN_VALUE,
-                "This is the file content".getBytes());
-
+    public void getBlogPageWhenLoggedInWithAdminAccess() throws Exception {
+        mockMvc.perform(get("/blog")).andExpect(status().isOk());
+    }
+    @Test
+    @WithMockUser(username="admin",authorities={"USER","ADMIN"})
+    public void postBlogCategoryWhenLoggedWithAdminAccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .multipart("/product/add")
-                .file(mockMultipartFile)
+                .post("/blog/category/add")
                 .param("name", "TestName")
-                .param("description", "Test description")
-                .param("make", "Test make")
-                .param("model", "Test model")
-                .param("productNumber", "Test productNumber")
-                .param("price", "10")
-                .param("category", "books")
-                .with(csrf()))
+                .param("description", "Test Blog Description")
+        .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(mvcResult -> {
-                    "/shop".equals(mvcResult.getModelAndView().getViewName());
-                });
+                    "/blog".equals(mvcResult.getModelAndView().getViewName());
+        });
     }
-
     @Test
-    @WithMockUser(username=TEST_USER,authorities={"USER"})
-    public void getAddProductPageWithoutAdminAccess() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/product/add)").with(csrf()))
+    @WithMockUser(username="admin",authorities={"USER"})
+    public void postBlogCategoryWhenLoggedWithoutAdminAccess() throws Exception {
+        mockMvc.perform(get("/blog/category/add")
+                .with(csrf()))
                 .andExpect(status().is4xxClientError());
+
+    }
+    @Test
+    public void postBlogCategoryWhenNotLogged() throws Exception {
+        mockMvc.perform(get("/blog/category/add")
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    public void getAddProductPageWhenNotLogged() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/product/add"))
+    @WithMockUser(username="admin",authorities={"USER"})
+    public void getBlogPageWhenLoggedInWithoutAdminAccess() throws Exception {
+        mockMvc.perform(get("/blog")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getBlogPageWhenNotLoggedIn() throws Exception {
+        mockMvc.perform(get("/blog"))
                 .andExpect(status().is3xxRedirection());
     }
 
