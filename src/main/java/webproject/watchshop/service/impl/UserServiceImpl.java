@@ -64,6 +64,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserServiceModel register(UserServiceModel userServiceModel) {
         User user = this.modelMapper.map(userServiceModel, User.class);
+        if (user == null) {
+            throw new UserCannotSaveException("Not valid user");
+        }
         addAddressToUser(userServiceModel, user);
         user.setRegisterOn(LocalDateTime.now());
         user.setUpdatedOn(LocalDateTime.now());

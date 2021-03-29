@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -40,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = WatchShopApplication.class)
+@DirtiesContext
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class ProductControllerTest {
 
@@ -65,6 +67,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser(username="admin",authorities={"USER","ADMIN"})
     public void addProductTest() throws Exception {
 
@@ -92,6 +95,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser(username=TEST_USER,authorities={"USER"})
     public void getAddProductPageWithoutAdminAccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/product/add)").with(csrf()))
@@ -99,6 +103,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DirtiesContext
     public void getAddProductPageWhenNotLogged() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/product/add"))
@@ -106,6 +111,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser(username = TEST_USER, authorities = {"USER"})
     public void getProductDetailsPageWhenLogged() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
@@ -115,6 +121,7 @@ public class ProductControllerTest {
                 .andExpect(model().attributeExists("product"));
     }
     @Test
+    @DirtiesContext
     @WithMockUser(username = TEST_USER, authorities = {"USER", "ADMIN"})
     public void getProductDetailsPageWhenLoggedWithAdminRole() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders

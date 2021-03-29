@@ -1,7 +1,9 @@
 package webproject.watchshop.web.controller;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -9,12 +11,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import webproject.watchshop.WatchShopApplication;
 import webproject.watchshop.enums.RoleEnum;
 import webproject.watchshop.model.entity.*;
+import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.repository.ProductCategoryRepository;
 import webproject.watchshop.repository.ProductRepository;
 import webproject.watchshop.repository.UserRepository;
@@ -40,9 +44,9 @@ public class CartControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private UserService userService;
+//
+//    @MockBean
+//    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,18 +57,30 @@ public class CartControllerTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @BeforeEach
     public void setUp(){
-//        this.init();
+        this.init();
     }
 
+//    @AfterEach
+//    public void after(){
+//        userRepository.deleteAll();
+//        productRepository.deleteAll();
+//        productCategoryRepository.deleteAll();
+//    }
+
     @Test
-    @WithMockUser(username = "admin", authorities = {"USER"})
+    @DirtiesContext
+    @WithMockUser(username = "pesho", authorities = {"USER"})
     public void getCartPageWhenLoggedInWithoutAdminAccess() throws Exception {
         mockMvc.perform(get("/cart").with(csrf())).andExpect(status().isOk());
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser(username = "pesho", authorities = {"USER", "ADMIN"})
     public void getCartWhenLoggedWithAdminAccess() throws Exception {
         mockMvc.perform(get("/cart").with(csrf()))
@@ -130,7 +146,9 @@ public class CartControllerTest {
         userEntity.setUpdatedOn(LocalDateTime.now());
         userEntity.setAuthorities(Set.of(userRole, adminRole));
         userEntity.setIsEnabled(true);
+        userEntity = userRepository.save(userEntity);
         userEntity.setCart(List.of(product));
+        System.out.println();
         userEntity = userRepository.save(userEntity);
         System.out.println();
     }
