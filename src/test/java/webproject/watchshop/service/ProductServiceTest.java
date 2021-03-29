@@ -16,13 +16,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
+import webproject.watchshop.exceptions.productEx.ProductCategoryNotSelected;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.entity.ProductCategory;
+import webproject.watchshop.model.service.ProductCategoryServiceModel;
 import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.view.ProductCategoryView;
 import webproject.watchshop.model.view.ProductViewModel;
+import webproject.watchshop.repository.ProductCategoryRepository;
 import webproject.watchshop.repository.ProductRepository;
 import webproject.watchshop.service.impl.ProductServiceImpl;
 
@@ -46,6 +50,8 @@ public class ProductServiceTest {
 
     @Mock
     private ProductRepository mockProductRepository;
+    @Mock
+    private ProductCategoryRepository mockProductCategoryRepository;
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -62,6 +68,7 @@ public class ProductServiceTest {
     private Product product;
     private ProductServiceModel productServiceModel;
     private ProductViewModel productViewModel;
+    private ProductCategory productCategory;
 
     @BeforeEach
     public void setup() throws IOException {
@@ -69,6 +76,7 @@ public class ProductServiceTest {
         product = this.getProduct();
         productViewModel = this.getProductViewModel();
         productServiceModel = this.getProductServiceModel();
+        productCategory = this.getProductCategory();
         this.productService = new ProductServiceImpl(mockProductRepository,
                 this.modelMapper, this.productCategoryService, this.cloudinaryService);
 
@@ -91,11 +99,13 @@ public class ProductServiceTest {
     public void testProductServiceGetProductById() {
         when(mockProductRepository.findById(any()))
                 .thenReturn(Optional.ofNullable(product));
+//        when(mockProductCategoryRepository.findById(any())).thenReturn(Optional.ofNullable(productCategory));
 
         ProductServiceModel serviceModel = new ProductServiceModel();
         serviceModel.setId(1L);
         serviceModel.setName("Rolex");
         serviceModel.setDescription("Stylish");
+//        serviceModel.setCategory("Stylish");
 
 
         //Act
@@ -110,8 +120,12 @@ public class ProductServiceTest {
 
     @Test
     public void testProductServiceUploadProduct() throws IOException {
-        when(mockProductRepository.save(any()))
-                .thenReturn(Optional.ofNullable(product));
+//        when(mockProductRepository.save(any()))
+//                .thenReturn(Optional.ofNullable(product));
+//        when(mockProductCategoryRepository.save(any())).thenReturn(Optional.ofNullable(productCategory));
+        ProductCategoryServiceModel productCategory = new ProductCategoryServiceModel();
+        productCategory.setCategory("Stylish");
+        productCategory.setDescription("The best description");
 
         ProductServiceModel serviceModel = new ProductServiceModel();
         serviceModel.setId(1L);
@@ -145,22 +159,66 @@ public class ProductServiceTest {
 
 
         //Act
+        ProductCategoryServiceModel productCategoryServiceModel = productCategoryService.addCategory(productCategory);
+                System.out.println();
         ProductServiceModel result = productService.uploadProduct(serviceModel);
-
         //Assert
         Assertions.assertEquals(productServiceModel.getName(), result.getName());
         Assertions.assertEquals(productServiceModel.getId(), result.getId());
         Assertions.assertEquals(productServiceModel.getDescription(), result.getDescription());
+        Assertions.assertEquals(productServiceModel.getCategory(), productCategory.getCategory());
 
     }
 
-//    @Test
-//    public void testProductServiceUploadProduct() throws IOException {
-//        when(productService.uploadProduct(productServiceModel)).thenReturn(productServiceModel);
-//
-//
-//
-//    }
+    @Test()
+    public void testProductServiceUploadProductWhenNotSelectedCategoryShouldThrowError() throws IOException {
+        ProductCategoryServiceModel productCategory = new ProductCategoryServiceModel();
+        productCategory.setCategory("Stylish");
+        productCategory.setDescription("The best description");
+
+        ProductServiceModel serviceModel = new ProductServiceModel();
+        serviceModel.setId(1L);
+        serviceModel.setName("Rolex");
+        serviceModel.setDescription("Stylish");
+        serviceModel.setEditedOn(LocalDateTime.now());
+        serviceModel.setAddedOn(LocalDateTime.now());
+        serviceModel.setPrice(BigDecimal.valueOf(250));
+        serviceModel.setImageUrls(
+                List.of("http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258871/qpy2zdazzvaawr8gucg8.jpg",
+                        "http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258874/hwnk9rhmoqstkbl36j4z.jpg",
+                        "http://res.cloudinary.com/watch-shop-cloud/image/upload/v1616258606/wiqyq3bgigdkskgymdyz.jpg"));
+        File file = new File("C:\\Users\\Ivailo.DESKTOP-J380DFT\\Desktop\\IMG_20200408_212850.jpg");
+        FileInputStream image1 = new FileInputStream(file);
+        MultipartFile[] multipartFiles = new MultipartFile[3];
+
+        multipartFiles[0] = new MockMultipartFile("file",
+                file.getName(), "image/jpg", image1.readAllBytes());
+        multipartFiles[1] = new MockMultipartFile("file1",
+                file.getName(), "image/jpg", image1.readAllBytes());
+        multipartFiles[2] = new MockMultipartFile("file2",
+                file.getName(), "image/jpg", image1.readAllBytes());
+
+        serviceModel.setPhotos(multipartFiles);
+        serviceModel.setModel("Casio");
+        serviceModel.setMake("Casio");
+        serviceModel.setProductNumber("12345");
+        serviceModel.setDescription("Product description");
+        serviceModel.setName("Rolex");
+        serviceModel.setCategory("Stylish");
+
+
+        //Act
+//        ProductCategoryServiceModel productCategoryServiceModel = productCategoryService.addCategory(productCategory);
+        System.out.println();
+//        ProductServiceModel result = productService.uploadProduct(serviceModel);
+        //Assert
+        Assertions.assertThrows(
+                ProductCategoryNotSelected.class, () -> {
+                    productService.uploadProduct(productServiceModel);
+                }
+        );
+
+    }
 
 
     public Product getProduct() {
@@ -184,6 +242,13 @@ public class ProductServiceTest {
         product.setCategory(productCategory);
 
         return product;
+    }
+    public ProductCategory getProductCategory() {
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setCategory("Stylish");
+        productCategory.setDescription("Best category");
+
+        return productCategory;
     }
 
     public ProductServiceModel getProductServiceModel() throws IOException {
