@@ -40,12 +40,10 @@
                     <!--Nav Button  -->
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                            <a class="nav-item nav-link active" id="allProducts" data-toggle="tab" href="#nav-home"
                                role="tab" aria-controls="nav-home" aria-selected="true">All</a>
                             <a class="nav-item nav-link" id="sortedProducts" data-toggle="tab" href="#sorted=asc"
-                               role="tab" aria-controls="nav-profile" aria-selected="false"> Price high to low</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
-                               role="tab" aria-controls="nav-contact" aria-selected="false"> Most populer </a>
+                               role="tab" aria-controls="nav-profile" aria-selected="false"> Price low to high</a>
                         </div>
                     </nav>
                     <!--End Nav Button  -->
@@ -58,18 +56,18 @@
                     </div>
                 </div>
                 <!-- Select items -->
-                <div class="select-this">
-                    <form action="#">
-                        <div class="select-itms">
-                            <select name="select" id="select1">
-                                <option value="">40 per page</option>
-                                <option value="">50 per page</option>
-                                <option value="">60 per page</option>
-                                <option value="">70 per page</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
+<!--                <div class="select-this">-->
+<!--                    <form action="#">-->
+<!--                        <div class="select-itms">-->
+<!--                            <select name="select" id="select1">-->
+<!--                                <option value="">40 per page</option>-->
+<!--                                <option value="">50 per page</option>-->
+<!--                                <option value="">60 per page</option>-->
+<!--                                <option value="">70 per page</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
             </div>
             <!-- Nav Card -->
             <div class="tab-content" id="productsList">
@@ -159,6 +157,7 @@
 <!-- All JS Custom Plugins Link Here here -->
 <script th:src="@{/assets/js/search-bar.js}"></script>
 <script th:src="@{/assets/js/sorted-products.js}"></script>
+<script th:src="@{/assets/js/all-p.js}"></script>
 <th:block th:include="~{fragments/script}"></th:block>
 
 </body>
