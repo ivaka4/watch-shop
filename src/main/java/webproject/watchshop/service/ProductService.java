@@ -20,4 +20,6 @@ public interface ProductService {
     ProductServiceModel editProduct(ProductServiceModel psm) throws IOException;
 
     List<ProductViewModel> getLastThreeProduct();
+
+    List<ProductViewModel> getAllProductOrderedByPrice();
 }

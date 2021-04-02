@@ -133,6 +133,13 @@ public class ProductServiceImpl implements ProductService {
         return lastest.stream().limit(3).collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProductViewModel> getAllProductOrderedByPrice() {
+        return this.modelMapper
+                .map(this.productRepository.findAllByPrice(),
+                        new TypeToken<List<ProductViewModel>>(){}.getType());
+    }
+
     private static ProductServiceModel mapToSummary(Product offerEntity) {
         ProductServiceModel offerModel = new ProductServiceModel();
         mapToSummary(offerEntity, offerModel);

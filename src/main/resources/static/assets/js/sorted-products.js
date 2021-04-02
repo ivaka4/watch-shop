@@ -1,30 +1,25 @@
-const productsList = document.getElementById('productsList')
-const searchBar = document.getElementById('searchBar')
+const sortedProducts = document.getElementById('sortedProducts')
 
-const allProducts = [];
+const sorted = [];
 
-fetch("http://localhost:8080/shop/api").then(response => response.json()).then(data => {
+fetch("http://localhost:8080/shop/sorted").then(response => response.json()).then(data => {
     for (let product of data) {
-        allProducts.push(product);
+        sorted.push(product);
     }
 })
 
-
-searchBar.addEventListener('keyup', (e) => {
-    const searchingCharacters = searchBar.value.toLowerCase();
-    let filteredProducts = allProducts.filter(product => {
-        return product.name.toLowerCase().includes(searchingCharacters);
-    });
-    displayAlbums(filteredProducts);
+sortedProducts.addEventListener('click', (e) => {
+    // e.preventDefault();
+    console.log(sorted, "debuging")
+    displayProducts(sorted);
 })
 
 
-const displayAlbums = (products) => {
+const displayProducts = (products) => {
     productsList.innerHTML = products
         .map((p) => {
             return `
-<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <div class="col">
+
                         <div 
                               class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                             <div class="single-popular-items mb-50 text-center">
@@ -48,7 +43,8 @@ const displayAlbums = (products) => {
                                     <span>${p.price}</span>
                                 </div>
                             </div>
-                        </div></div></div></div>
+                        </div>
+                       
                     
                  `
         })

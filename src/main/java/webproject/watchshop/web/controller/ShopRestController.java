@@ -33,4 +33,13 @@ public class ShopRestController {
                 .body(this.modelMapper.map(productService.getAllProducts(),
                         new TypeToken<List<ProductViewModel>>(){}.getType()));
     }
+
+    @PageTitle(name = "Product Sorted")
+    @GetMapping("/sorted")
+    public ResponseEntity<List<ProductViewModel>> findAllOrderedByPrice(){
+        return ResponseEntity
+                .ok()
+                .body(this.modelMapper.map(productService.getAllProductOrderedByPrice(),
+                        new TypeToken<List<ProductViewModel>>(){}.getType()));
+    }
 }

@@ -12,4 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT p FROM Product p ORDER BY p.addedOn desc")
     List<Product> findLatest();
+
+    @Query(value = "SELECT p FROM Product p ORDER BY p.price")
+    List<Product> findAllByPrice();
 }
