@@ -23,8 +23,7 @@ const displayAlbums = (products) => {
     productsList.innerHTML = products
         .map((p) => {
             return `
-<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <div class="col">
+                    
                         <div 
                               class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                             <div class="single-popular-items mb-50 text-center">
@@ -34,9 +33,9 @@ const displayAlbums = (products) => {
                                     <div class="img-cap">
                                         <a href="/add-to-cart/${p.id}"><span>Add to cart</span></a>
                                         <a sec:authorize="hasAuthority('ADMIN')"
-                                           href="@{/product/edit/{id}(id = *{id})}"><span>Edit Product</span></a>
+                                           href="/product/edit/${p.id}"><span>Edit Product</span></a>
                                         <a sec:authorize="hasAuthority('ADMIN')"
-                                           href="@{/product/delete/{id}(id = *{id})}"><span>Delete Product</span></a>
+                                           href="/product/delete/${p.id}"><span>Delete Product</span></a>
                                     </div>
                                     <div class="favorit-items">
                                         <span class="flaticon-heart"></span>
@@ -48,7 +47,9 @@ const displayAlbums = (products) => {
                                     <span>${p.price}</span>
                                 </div>
                             </div>
-                        </div></div></div></div>
+                        </div>
+                     
+                   
                     
                  `
         })

@@ -3,6 +3,12 @@
 .white-bg {
     background: #ffffff
 }
+.searchItems{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    column-gap: 50px;
+}
 
 .gray-bg {
     background: #f5f5f5
@@ -3573,6 +3579,7 @@ input:hover, input:focus {
     border: 0;
     border-bottom: 2px solid transparent
 }
+
 
 @media (max-width: 575px) {
     .popular-items .nav-tabs .nav-link {
