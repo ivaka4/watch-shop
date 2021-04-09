@@ -1,14 +1,12 @@
 package webproject.watchshop.web.controller;
 
+import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webproject.watchshop.model.binding.BlogAddBindingModel;
@@ -16,6 +14,8 @@ import webproject.watchshop.model.binding.BlogCategoryAddBinding;
 import webproject.watchshop.model.service.BlogCategoryServiceModel;
 import webproject.watchshop.model.service.BlogServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
+import webproject.watchshop.model.view.BlogViewModel;
+import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.BlogCategoryService;
 import webproject.watchshop.service.BlogService;
@@ -25,6 +25,10 @@ import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -52,13 +56,28 @@ public class BlogController extends BaseController{
     @PageTitle(name = "Blog")
     @GetMapping
     public ModelAndView blog() {
-        return new ModelAndView("blog");
+        ModelAndView modelAndView = new ModelAndView("blog");
+        modelAndView.addObject("categories", blogCategoryService.findAll());
+        modelAndView.addObject("blogs", blogService.findAll());
+        List<BlogViewModel> recentBlogs = new LinkedList<>(this.blogService.findAll());
+        Collections.reverse(recentBlogs);
+        modelAndView.addObject("recentBlogs", recentBlogs.stream().limit(4));
+        return modelAndView;
     }
 
     @PageTitle(name = "Blog Details")
-    @GetMapping("/details")
-    public ModelAndView blogDetails() {
-        return new ModelAndView("blog-details");
+    @GetMapping("/details/{id}")
+    public ModelAndView blogDetails(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("blog-details");
+        modelAndView.addObject("categories", blogCategoryService.findAll());
+
+
+        BlogViewModel blogViewModel = this.modelMapper
+                .map(blogService.getBlogById(id), BlogViewModel.class);
+
+        modelAndView.addObject("blog", blogViewModel);
+
+        return modelAndView;
     }
 
     @PageTitle(name = "Blog category add")

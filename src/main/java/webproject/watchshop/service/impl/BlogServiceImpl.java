@@ -1,6 +1,7 @@
 package webproject.watchshop.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import webproject.watchshop.model.entity.Blog;
 import webproject.watchshop.model.entity.BlogCategory;
 import webproject.watchshop.model.entity.User;
 import webproject.watchshop.model.service.BlogServiceModel;
+import webproject.watchshop.model.view.BlogViewModel;
 import webproject.watchshop.repository.BlogCategoryRepository;
 import webproject.watchshop.repository.BlogRepository;
 import webproject.watchshop.service.BlogService;
@@ -17,6 +19,7 @@ import webproject.watchshop.service.UserService;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -52,6 +55,21 @@ public class BlogServiceImpl implements BlogService {
         blog.setImgUrl(imgUrl);
         blog.setCategory(blogCategory);
         this.blogRepository.saveAndFlush(blog);
+        return this.modelMapper.map(blog, BlogServiceModel.class);
+    }
+
+    @Override
+    public List<BlogViewModel> findAll() {
+        return this.modelMapper.map(blogRepository.findAll(), new TypeToken<List<BlogViewModel>>(){}.getType());
+    }
+
+    @Override
+    @Transactional
+    public BlogServiceModel getBlogById(Long id) {
+        Blog blog = this.blogRepository.findById(id).orElse(null);
+        if (blog == null){
+            throw new BlogAddException("Cant find blog with this id");
+        }
         return this.modelMapper.map(blog, BlogServiceModel.class);
     }
 }
