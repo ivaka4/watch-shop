@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 
 
 import javax.servlet.http.HttpServletRequest;

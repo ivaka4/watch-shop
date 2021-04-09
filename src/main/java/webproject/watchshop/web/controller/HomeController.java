@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.service.ProductService;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 
 import java.util.List;
 

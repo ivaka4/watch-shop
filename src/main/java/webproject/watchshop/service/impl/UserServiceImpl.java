@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
         addAddressToUser(userServiceModel, user);
         user.setRegisterOn(LocalDateTime.now());
         user.setUpdatedOn(LocalDateTime.now());
+        user.setIsEnabled(true);
         //default profile picture
         user.setProfilePicture("https://cdn.vox-cdn.com/thumbor/qds1ovjTYIqLY6Cr2jW1YfeDJ-s=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/21730397/avatar_airbender.jpg");
         if (userRepository.count() == 0) {

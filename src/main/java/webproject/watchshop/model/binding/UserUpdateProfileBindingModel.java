@@ -3,10 +3,8 @@ package webproject.watchshop.model.binding;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import webproject.watchshop.util.UniqueEmail;
-import webproject.watchshop.util.UniqueUsername;
+import webproject.watchshop.util.annotation.UniqueEmail;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

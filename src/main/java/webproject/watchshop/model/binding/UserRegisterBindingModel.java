@@ -3,8 +3,8 @@ package webproject.watchshop.model.binding;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import webproject.watchshop.util.UniqueEmail;
-import webproject.watchshop.util.UniqueUsername;
+import webproject.watchshop.util.annotation.UniqueEmail;
+import webproject.watchshop.util.annotation.UniqueUsername;
 
 
 import javax.validation.constraints.NotBlank;
@@ -45,6 +45,7 @@ public class UserRegisterBindingModel {
     private String lastName;
     @NotBlank
     @Length(max = 10, message = "Phone number must be 10 digits")
+    @Pattern(regexp = "[0-9]{10}", message = "Phone must contains only digits")
     private String phone;
 
     /* For Address */

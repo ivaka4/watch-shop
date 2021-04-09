@@ -16,7 +16,7 @@ import webproject.watchshop.model.binding.UserUpdateProfileBindingModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.UserService;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
@@ -93,7 +93,7 @@ public class UserController extends BaseController {
             redirectAttributes.addFlashAttribute("userRegisterModel", userRegisterModel);
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.userRegisterModel", bindingResult);
-            return super.redirect("/users-register");
+            return super.redirect("/users/register");
         }
 
         this.userService.register(this.modelMapper.map(userRegisterModel, UserServiceModel.class));

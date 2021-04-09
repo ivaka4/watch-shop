@@ -1,4 +1,4 @@
-package webproject.watchshop.util;
+package webproject.watchshop.util.validator;
 
 
 import lombok.AccessLevel;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import webproject.watchshop.service.UserService;
+import webproject.watchshop.util.annotation.UniqueEmail;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

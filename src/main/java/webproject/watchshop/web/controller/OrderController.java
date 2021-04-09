@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import webproject.watchshop.model.view.OrderViewModel;
 import webproject.watchshop.service.OrderService;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import java.io.IOException;

@@ -11,17 +11,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import webproject.watchshop.model.binding.BlogAddBindingModel;
 import webproject.watchshop.model.binding.BlogCategoryAddBinding;
 import webproject.watchshop.model.service.BlogCategoryServiceModel;
+import webproject.watchshop.model.service.BlogServiceModel;
 import webproject.watchshop.model.service.UserServiceModel;
 import webproject.watchshop.model.view.UserViewModel;
 import webproject.watchshop.service.BlogCategoryService;
 import webproject.watchshop.service.BlogService;
 import webproject.watchshop.service.UserService;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 
 @Controller
@@ -46,7 +49,7 @@ public class BlogController extends BaseController{
         return this.modelMapper.map(userServiceModel, UserViewModel.class);
     }
 
-    @PageTitle(name = "Title")
+    @PageTitle(name = "Blog")
     @GetMapping
     public ModelAndView blog() {
         return new ModelAndView("blog");
@@ -84,6 +87,37 @@ public class BlogController extends BaseController{
         }
         this.blogCategoryService.addBlogCategory(this.modelMapper.map(blogCategoryAddBinding, BlogCategoryServiceModel.class));
 
+        return super.redirect("/blog");
+    }
+
+    @GetMapping("/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView blogAdd(Model model){
+        ModelAndView modelAndView = new ModelAndView("blog-add");
+        UserViewModel userViewModel = userProfile();
+        modelAndView.addObject("userUpdate", userViewModel);
+        modelAndView.addObject("categories", blogCategoryService.findAll());
+        if (!model.containsAttribute("blogAddBindingModel")) {
+            modelAndView.addObject("blogAddBindingModel", new BlogAddBindingModel());
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView blogAddConfirm(@Valid @ModelAttribute BlogAddBindingModel blogAddBindingModel,
+                                       BindingResult bindingResult,
+                                       RedirectAttributes redirectAttributes) throws IOException {
+
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("blogAddBindingModel", blogAddBindingModel);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.blogAddBindingModel", bindingResult);
+            return super.redirect("/blog/add");
+        }
+
+        BlogServiceModel blogServiceModel = this.modelMapper.map(blogAddBindingModel, BlogServiceModel.class);
+        this.blogService.addBlog(blogServiceModel, this.tools.getLoggedUser());
         return super.redirect("/blog");
     }
 }

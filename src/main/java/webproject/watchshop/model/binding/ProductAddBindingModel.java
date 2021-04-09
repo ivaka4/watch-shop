@@ -53,7 +53,7 @@ public class ProductAddBindingModel {
 //    @NotNull
 //    private List<String> imageUrls;
 
-    @NotBlank
+    @NotBlank(message = "Must select product category")
     private String category;
 
 }

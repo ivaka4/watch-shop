@@ -26,64 +26,7 @@
 
 <div class="container bootstrap snippet">
     <div class="row">
-        <div th:object="${userUpdate}" class="col-sm-3"><!--left col-->
-
-
-            <div class="text-center">
-                <img th:src="${userUpdate.profilePicture}" width="361" height="361"
-                     class="avatar img-circle img-thumbnail"
-                     alt="avatar">
-            </div>
-            </hr><br>
-
-
-            <div sec:authorize="hasAuthority('ADMIN')" class="panel panel-default">
-                <div class="panel-heading">Admin panel <i class="fa fa-link fa-1x"></i></div>
-                <ul class="list-group">
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/product/add">
-                    <strong>Upload Product</strong></a></span>
-                    </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><a href="/users/roles/add">
-                    <strong>Change Role</strong></a></span>
-                    </li>
-                    </li>
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <a href="/category/add">
-                                <strong>Add Product Category</strong>
-                            </a>
-                        </span>
-                    </li>
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <a href="/blog/category/add">
-                                <strong>Add Blog Category</strong>
-                            </a>
-                        </span>
-                    </li>
-                </ul>
-            </div>
-
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Activity</div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span>
-                            125
-                        </li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13
-                        </li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37
-                        </li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
-                            78
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div><!--/col-3-->
+        <th:block th:include="~{fragments/navbar-profile}"></th:block>
         <div class="col-sm-9">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="/users/profile">Profile information</a></li>
@@ -92,7 +35,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="update">
                     <hr>
-                    <form class="form" th:action="@{/users/update}" th:method="post" enctype="multipart/form-data">
+                    <form class="form" th:action="@{/users/update}" th:object="${userUpdate}" th:method="post" enctype="multipart/form-data">
                         <input type="hidden"
                                th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>

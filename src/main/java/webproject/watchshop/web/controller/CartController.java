@@ -11,7 +11,7 @@ import webproject.watchshop.model.service.ProductServiceModel;
 import webproject.watchshop.model.view.ProductViewModel;
 import webproject.watchshop.service.ProductService;
 import webproject.watchshop.service.UserService;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 import webproject.watchshop.util.Tools;
 
 import java.util.List;

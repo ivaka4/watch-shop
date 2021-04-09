@@ -14,7 +14,7 @@ public class BlogCategoryAddBinding {
 
     @Length(min = 3, max =50, message = "Category name must be between 3 and 50 characters")
     @NotBlank
-    private String name;
+    private String category;
 
     @Length(min = 3, message = "Category description must be at least 3 characters")
     private String description;

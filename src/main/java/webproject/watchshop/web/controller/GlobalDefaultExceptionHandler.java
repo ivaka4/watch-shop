@@ -9,7 +9,7 @@ import webproject.watchshop.exceptions.CustomBaseException;
 import webproject.watchshop.exceptions.addressEx.AddressIsNotExistException;
 import webproject.watchshop.exceptions.userEx.UserCannotSaveException;
 import webproject.watchshop.exceptions.userEx.UserRegistrationException;
-import webproject.watchshop.util.PageTitle;
+import webproject.watchshop.util.annotation.PageTitle;
 
 import javax.servlet.http.HttpServletRequest;
 

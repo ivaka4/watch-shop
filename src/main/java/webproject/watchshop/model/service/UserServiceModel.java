@@ -8,6 +8,7 @@ import webproject.watchshop.model.entity.Blog;
 import webproject.watchshop.model.entity.Product;
 import webproject.watchshop.model.view.AddressViewModel;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class UserServiceModel {
+    private Long id;
     private String username;
     private String password;
     private String confirmPassword;
@@ -22,6 +24,8 @@ public class UserServiceModel {
     private String firstName;
     private String lastName;
     private String phone;
+    private LocalDateTime registerOn;
+    private LocalDateTime updatedOn;
     private MultipartFile picture;
     private String profilePicture;
     private List<Blog> blogs;

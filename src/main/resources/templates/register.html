@@ -178,7 +178,7 @@
                                             <label for="phone">Phone number</label>
                                             <input type="text" class="form-control" name="phone" id="phone"
                                                    th:value="*{phone}" aria-describedby="helpId"
-                                                   placeholder="Phone number">
+                                                   placeholder="Phone number" pattern="[0-9]">
                                             <small class="span-info-text-error"
                                                    th:each="error : ${#fields.errors('phone')}"
                                                    th:text="${error}"></small>

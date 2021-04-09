@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BlogCategory extends BaseEntity {
     @Column(nullable = false)
-    private String name;
+    private String category;
     @Column(nullable = false)
     private String description;
     @OneToMany

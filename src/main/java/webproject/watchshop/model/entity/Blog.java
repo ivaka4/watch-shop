@@ -18,14 +18,14 @@ import java.util.List;
 public class Blog extends BaseEntity {
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT", length = 1000000)
     private String description;
     @ManyToOne
     private User author;
     @OneToMany
     private List<Comment> comment;
     @ManyToOne
-    private BlogCategory blogCategory;
+    private BlogCategory category;
     private String imgUrl;
     @Column(nullable = false)
     private LocalDate addedOn;

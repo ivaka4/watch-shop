@@ -1,4 +1,6 @@
-package webproject.watchshop.util;
+package webproject.watchshop.util.annotation;
+
+import webproject.watchshop.util.validator.UniqueUserValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
