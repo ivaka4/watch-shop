@@ -83,7 +83,7 @@
                                         <img th:src="${product.getImageUrls().get(0)}" th:width="361" th:height="380"
                                              alt="">
                                         <div class="img-cap">
-                                            <a th:href="@{/add-to-cart/{id}(id = *{id})}"><span>Add to cart</span></a>
+                                            <a th:href="@{/add-to-cart/{id}(id = *{id})}"><span> Add to cart</span></a>
                                             <a sec:authorize="hasAuthority('ADMIN')"
                                                th:href="@{/product/edit/{id}(id = *{id})}"><span>Edit Product</span></a>
                                             <a sec:authorize="hasAuthority('ADMIN')"
