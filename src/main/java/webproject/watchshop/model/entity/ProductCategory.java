@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webproject.watchshop.constants.SCHEMA;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity()
-@Table(name = "product_categories")
+@Table(name = "product_categories", schema = SCHEMA.NAME)
 @Getter
 @Setter
 @NoArgsConstructor

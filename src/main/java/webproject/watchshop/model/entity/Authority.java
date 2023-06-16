@@ -1,12 +1,13 @@
 package webproject.watchshop.model.entity;
 
 import org.springframework.security.core.GrantedAuthority;
+import webproject.watchshop.constants.SCHEMA;
 import webproject.watchshop.enums.RoleEnum;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = SCHEMA.NAME)
 //@Getter
 //@Setter
 //@NoArgsConstructor

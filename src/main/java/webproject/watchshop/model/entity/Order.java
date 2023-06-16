@@ -3,6 +3,7 @@ package webproject.watchshop.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webproject.watchshop.constants.SCHEMA;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", schema = SCHEMA.NAME)
 @Getter
 @Setter
 @NoArgsConstructor

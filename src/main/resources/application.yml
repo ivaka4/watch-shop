@@ -1,22 +1,21 @@
 spring:
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    # Put here your user name
-    username: root
-    # Put here your password
-    password: '123123ivaka'
-    url: jdbc:mysql://localhost:3306/watch_shop_project?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: "jdbc:sqlserver://127.0.0.1:1433;databaseName=watch_shop_project;trustServerCertificate=true;"
+    username: sa
+    password: MyPass@word
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:triggers.sql
   jpa:
-    #    For MySQL 8 uncomment bellow (comment MySQL 5)
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    #For MySQL 5 (innodb dialect below)
-    #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true
 
     servlet:
         multipart:
@@ -25,6 +24,11 @@ spring:
             enabled: true
 
 cloudinary:
-  cloud-name: watch-shop-cloud
-  api-key: 696194539816934
+  cloud-name: watch-shop-clouds
+  api-key: 415414152923544
   api-secret: "${CLOUDINARY_SECRET}"
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

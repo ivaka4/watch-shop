@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webproject.watchshop.constants.SCHEMA;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "blogs")
+@Table(name = "blogs", schema = SCHEMA.NAME)
 @Setter
 @Getter
 @NoArgsConstructor

@@ -3,6 +3,7 @@ package webproject.watchshop.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webproject.watchshop.constants.SCHEMA;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "blog_category")
+@Table(name = "blog_category", schema = SCHEMA.NAME)
 @Getter
 @Setter
 @NoArgsConstructor

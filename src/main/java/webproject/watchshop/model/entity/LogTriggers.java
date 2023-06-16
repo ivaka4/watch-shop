@@ -1,20 +1,27 @@
 package webproject.watchshop.model.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import webproject.watchshop.constants.SCHEMA;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "comments", schema = SCHEMA.NAME)
-public class Comment extends BaseEntity{
-    @ManyToOne
-    private User author;
+@Table(name = "log_19118028", schema = SCHEMA.NAME)
+public class LogTriggers extends BaseEntity {
+
     @Column(nullable = false)
-    private String text;
+    private String name;
+
     @Column(nullable = false)
-    private LocalDateTime addedOn;
+    private String type;
+
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
+
 }
